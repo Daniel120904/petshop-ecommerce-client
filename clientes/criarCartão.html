@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Adicionar Cartão</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="bg-primary text-white p-3">
+      <div class="container d-flex justify-content-between">
+        <h2>Adicionar Cartão - João Silva</h2>
+        <a href="listarCartoes.html" class="btn btn-light">Voltar</a>
+      </div>
+    </header>
+
+    <main class="container mt-5">
+      <div class="row justify-content-center">
+        <div class="col-md-10">
+          <div class="card shadow p-4">
+            <form>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Nº do Cartão *</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="0000 0000 0000 0000"
+                    required
+                  />
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Nome impresso no Cartão *</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Como está no cartão"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Bandeira do Cartão *</label>
+                  <select class="form-select" required>
+                    <option value="">Selecione...</option>
+                    <option value="visa">Visa</option>
+                    <option value="mastercard">MasterCard</option>
+                    <option value="elo">Elo</option>
+                  </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Código de Segurança (CVV) *</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    maxlength="4"
+                    placeholder="XXX"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="d-flex justify-content-start">
+                <button type="submit" class="btn btn-success">
+                  Salvar Cartão
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
