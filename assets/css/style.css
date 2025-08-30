@@ -1,7 +1,31 @@
-body {
-  font-family: Arial, sans-serif;
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-header h1, header h2 {
-  margin: 0;
+/* Estrutura para sticky footer */
+html, body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  font-family: Arial, sans-serif;
+  background-color: #f8f9fa; /* cor de fundo padrão */
+}
+
+header {
+  flex-shrink: 0; /* header nunca encolhe */
+}
+
+main {
+  flex: 1; /* ocupa todo o espaço disponível */
+  padding: 20px;
+}
+
+footer {
+  flex-shrink: 0; /* footer fica no final */
 }
