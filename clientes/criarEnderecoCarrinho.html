@@ -3,19 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Editar Endereço</title>
+    <title>Criar Endereço</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
+
     <link rel="stylesheet" href="../assets/css/style.css" />
     <link rel="stylesheet" href="../assets/css/clientes.css" />
   </head>
   <body>
     <header class="bg-primary text-white p-3">
       <div class="container d-flex justify-content-between align-items-center">
-        <h2>Editar Endereço - João Silva</h2>
-        <a href="listarEnderecos.html" class="btn btn-light">Voltar</a>
+        <h2>Novo Endereço</h2>
+        <a href="../produtos/crirarCompra.html" class="btn btn-light">Voltar</a>
       </div>
     </header>
 
@@ -116,14 +117,22 @@
                 <textarea class="form-control" rows="3"></textarea>
               </div>
 
-              <button type="submit" class="btn btn-success">
-                Salvar Endereço
-              </button>
+              <div class="d-flex justify-content-start">
+                <div class="justify-content-between">
+                  <button type="submit" class="btn btn-success">
+                    Confirmar
+                  </button>
+                  <button type="submit" class="btn btn-success">
+                    Confirmar e Salvar Endereço
+                  </button>
+                </div>
+              </div>
             </form>
           </div>
         </div>
       </div>
     </main>
+
     <footer class="bg-dark text-white text-center p-2">
       <p>&copy; E-commerce PetShop.</p>
     </footer>
