@@ -144,6 +144,38 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    if (enderecosContainer.querySelectorAll(".card").length === 0) {
+      alert("Você deve cadastrar pelo menos um endereço!");
+      return;
+    }
+
+    if (cartoesContainer.querySelectorAll(".card").length === 0) {
+      alert("Você deve cadastrar pelo menos um cartão!");
+      return;
+    }
+
+    let temCobranca = false;
+    let temEntrega = false;
+
+    const enderecoCards = enderecosContainer.querySelectorAll(".card");
+
+    enderecoCards.forEach((card) => {
+      const tipo = card.querySelector(".tipoEndereco").value;
+      if (tipo === "Cobrança") temCobranca = true;
+      if (tipo === "Entrega") temEntrega = true;
+      if (tipo === "Cobrança e Entrega") {
+        temCobranca = true;
+        temEntrega = true;
+      }
+    });
+
+    if (!temCobranca || !temEntrega) {
+      alert(
+        "É necessário cadastrar pelo menos um endereço de cobrança e um de entrega, ou um endereço que seja ambos."
+      );
+      return;
+    }
+
     const user = {
       nome: document.getElementById("nome").value,
       genero: document.getElementById("genero").value,
@@ -180,18 +212,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
       for (const card of enderecosContainer.querySelectorAll(".card")) {
         const endereco = {
-          nome: card.querySelector(".nomeEndereco").value,
-          tipoEndereco: card.querySelector(".tipoEndereco").value,
-          tipoResidencia: card.querySelector(".tipoResidencia").value,
-          tipoLogradouro: card.querySelector(".tipoLogradouro").value,
-          logradouro: card.querySelector(".logradouro").value,
-          numero: card.querySelector(".numero").value,
-          bairro: card.querySelector(".bairro").value,
-          cep: card.querySelector(".cep").value,
-          cidade: card.querySelector(".cidade").value,
-          estado: card.querySelector(".estado").value,
-          pais: card.querySelector(".pais").value,
-          observacoes: card.querySelector(".observacoes").value,
+          nome: card.querySelector(".nomeEndereco").value.trim(),
+          tipoEndereco: card.querySelector(".tipoEndereco").value.trim(),
+          tipoResidencia: card.querySelector(".tipoResidencia").value.trim(),
+          tipoLogradouro: card.querySelector(".tipoLogradouro").value.trim(),
+          logradouro: card.querySelector(".logradouro").value.trim(),
+          numero: card.querySelector(".numero").value.trim(),
+          bairro: card.querySelector(".bairro").value.trim(),
+          cep: card.querySelector(".cep").value.trim(),
+          cidade: card.querySelector(".cidade").value.trim(),
+          estado: card.querySelector(".estado").value.trim(),
+          pais: card.querySelector(".pais").value.trim(),
+          observacoes: card.querySelector(".observacoes").value.trim(),
           userId,
         };
 
