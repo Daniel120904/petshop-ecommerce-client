@@ -14,15 +14,14 @@
   <body>
     <header class="bg-primary text-white p-3">
       <div class="container d-flex justify-content-between align-items-center">
-        <h2>Lista de Cartões - João Silva</h2>
+        <h2>Lista de Cartões</h2>
         <a href="listarClientes.html" class="btn btn-light">Voltar</a>
       </div>
     </header>
 
     <main class="container mt-4">
-      <a href="criarCartao.html" class="btn btn-success mb-3"
-        >+ Novo Cartão</a
-      >
+      <a href="criarCartao.html?userId=${userId}" class="btn btn-success mb-3">+ Novo Cartão</a>
+
       <table class="table table-striped align-middle">
         <thead>
           <tr>
@@ -30,25 +29,14 @@
             <th class="text-end">Preferencial</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td class="text-start">**** **** **** 1234</td>
-            <td class="text-end">
-              <input type="radio" name="preferencial" checked />
-            </td>
-          </tr>
-          <tr>
-            <td class="text-start">**** **** **** 5678</td>
-            <td class="text-end">
-              <input type="radio" name="preferencial" />
-            </td>
-          </tr>
-        </tbody>
+        <tbody id="cartoesBody"></tbody>
       </table>
     </main>
 
     <footer class="bg-dark text-white text-center p-2">
       <p>&copy; E-commerce PetShop.</p>
     </footer>
+
+    <script src="../assets/js/listarCartoes.js"></script>
   </body>
 </html>
