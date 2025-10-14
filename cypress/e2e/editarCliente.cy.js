@@ -12,7 +12,7 @@ describe('Edição de Cliente', () => {
       }
     }).as('getUser');
 
-    cy.visit('http://localhost:8080/clientes/editarCliente.html?userId=1');
+    cy.visit('http://127.0.0.1:5500/clientes/editarCliente.html?userId=1');
 
     cy.wait('@getUser');
 
