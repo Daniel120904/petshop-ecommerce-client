@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
           try {
             const updateRes = await fetch("http://localhost:3000/api/updateCartaoPreferencial", {
-              method: "PUT", // ✅ precisa ser PUT
+              method: "PUT",
               headers: {
                 "Content-Type": "application/json"
               },

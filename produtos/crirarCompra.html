@@ -14,14 +14,14 @@
     <header class="bg-primary text-white p-3">
       <div class="container d-flex justify-content-between align-items-center">
         <h1>PetShop - Carrinho</h1>
-        <div class="justify-content-center">
+        <div class="d-flex gap-2">
           <a href="../produtos/listarProdutos.html" class="btn btn-light"
             >Produtos</a
           >
           <a
             href="../produtos/listarProdutosCarrinho.html"
             class="btn btn-light"
-            >carrinho</a
+            >Carrinho</a
           >
           <a href="../produtos/chatbotAi.html" class="btn btn-light">Chat Ai</a>
           <a href="../produtos/lisrarCompras.html" class="btn btn-light"
@@ -33,33 +33,25 @@
         >
       </div>
     </header>
+
     <main class="container mt-5">
       <div class="row">
+        <!-- Carrinho -->
         <div class="col-md-6">
           <div class="card shadow p-4 mb-4">
             <h4>Carrinho</h4>
-            <ul class="list-group mb-3">
-              <li
-                class="list-group-item d-flex justify-content-between align-items-center"
-              >
-                Ração Premium 10kg
-                <span>R$ 120,00</span>
-              </li>
-              <li
-                class="list-group-item d-flex justify-content-between align-items-center"
-              >
-                Brinquedo de Borracha
-                <span>R$ 40,00</span>
-              </li>
+            <ul class="list-group mb-3" id="lista-produtos">
+              <!-- itens do carrinho -->
             </ul>
+
             <div class="d-flex justify-content-between">
-              <strong>Subtotal:</strong> <span>R$ 160,00</span>
+              <strong>Subtotal:</strong> <span id="subtotal">R$ 0,00</span>
             </div>
             <div class="d-flex justify-content-between">
-              <strong>Frete:</strong> <span>R$ 20,00</span>
+              <strong>Frete:</strong> <span id="frete">R$ 20,00</span>
             </div>
             <div class="d-flex justify-content-between mt-2 border-top pt-2">
-              <strong>Total:</strong> <span>R$ 180,00</span>
+              <strong>Total:</strong> <span id="total">R$ 0,00</span>
             </div>
           </div>
 
@@ -69,38 +61,46 @@
               type="text"
               class="form-control mb-2"
               placeholder="Digite seu cupom"
+              id="coupon-input"
             />
-            <button class="btn btn-primary">Aplicar Cupom</button>
+            <button class="btn btn-primary" id="apply-coupon">
+              Aplicar Cupom
+            </button>
           </div>
         </div>
 
+        <!-- Endereço e Pagamento -->
         <div class="col-md-6">
           <div class="card shadow p-4 mb-4">
             <h4>Endereço de Entrega</h4>
-            <select class="form-select mb-3">
+            <select class="form-select mb-3" id="select-endereco">
               <option value="">Selecione um endereço salvo</option>
-              <option value="1">Rua das Flores, 123 - Casa</option>
-              <option value="2">Av. Brasil, 45 - Casa Pai</option>
             </select>
-            <a href="../clientes/criarEnderecoCarrinho.html" class="btn btn-outline-secondary mb-3">
+            <a
+              href="../clientes/criarEnderecoCarrinho.html"
+              class="btn btn-outline-secondary mb-3"
+            >
               + Cadastrar Novo Endereço
             </a>
           </div>
 
           <div class="card shadow p-4 mb-4">
             <h4>Forma de Pagamento</h4>
-            <select class="form-select mb-3">
-              <option value="">Selecione um cartão salvo</option>
-              <option value="1">Visa final 1234</option>
-              <option value="2">MasterCard final 5678</option>
-            </select>
-            <a href="../clientes/criarCartaoCarrinho.html" class="btn btn-outline-secondary mb-3">
+            <div id="lista-cartoes" class="mb-3">
+              <!-- Cartões inseridos via JS -->
+            </div>
+            <a
+              href="../clientes/criarCartaoCarrinho.html"
+              class="btn btn-outline-secondary mb-3"
+            >
               + Cadastrar Novo Cartão
             </a>
           </div>
 
           <div class="d-grid">
-            <button class="btn btn-success btn-lg">Finalizar Compra</button>
+            <button class="btn btn-success btn-lg" id="btn-finalizar">
+              Finalizar Compra
+            </button>
           </div>
         </div>
       </div>
@@ -109,5 +109,7 @@
     <footer class="bg-dark text-white text-center p-2">
       <p>&copy; E-commerce PetShop.</p>
     </footer>
+
+    <script src="../assets/js/criarCompra.js"></script>
   </body>
 </html>
