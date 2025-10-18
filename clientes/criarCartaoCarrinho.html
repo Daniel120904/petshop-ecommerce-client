@@ -32,6 +32,7 @@
                   <label class="form-label">Nº do Cartão *</label>
                   <input
                     type="text"
+                    name="numero"
                     class="form-control"
                     placeholder="0000 0000 0000 0000"
                     required
@@ -41,6 +42,7 @@
                   <label class="form-label">Nome impresso no Cartão *</label>
                   <input
                     type="text"
+                    name="nome"
                     class="form-control"
                     placeholder="Como está no cartão"
                     required
@@ -51,17 +53,17 @@
               <div class="row">
                 <div class="col-md-6 mb-3">
                   <label class="form-label">Bandeira do Cartão *</label>
-                  <select class="form-select" required>
+                  <select name="bandeira" class="form-select" required>
                     <option value="">Selecione...</option>
-                    <option value="visa">Visa</option>
-                    <option value="mastercard">MasterCard</option>
-                    <option value="elo">Elo</option>
+                    <option value="Visa">Visa</option>
+                    <option value="Mastercard">MasterCard</option>
                   </select>
                 </div>
                 <div class="col-md-6 mb-3">
                   <label class="form-label">Código de Segurança (CVV) *</label>
                   <input
                     type="text"
+                    name="cvv"
                     class="form-control"
                     maxlength="4"
                     placeholder="XXX"
@@ -71,14 +73,9 @@
               </div>
 
               <div class="d-flex justify-content-start">
-                <div class="justify-content-between">
-                  <button type="submit" class="btn btn-success">
-                    Confirmar
-                  </button>
-                  <button type="submit" class="btn btn-success">
-                    Confirmar e Salvar Cartão
-                  </button>
-                </div>
+                <button type="submit" class="btn btn-success">
+                  Salvar Cartão
+                </button>
               </div>
             </form>
           </div>
@@ -89,5 +86,7 @@
     <footer class="bg-dark text-white text-center p-2">
       <p>&copy; E-commerce PetShop.</p>
     </footer>
+
+    <script src="../assets/js/criarCartaoCarrinho.js"></script>
   </body>
 </html>

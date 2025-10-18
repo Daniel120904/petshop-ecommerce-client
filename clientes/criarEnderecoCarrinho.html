@@ -30,15 +30,22 @@
               <div class="row">
                 <div class="col-md-6 mb-3">
                   <label class="form-label">Nome do Endereço *</label>
-                  <input type="text" class="form-control" required />
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="nome"
+                    required
+                  />
                 </div>
                 <div class="col-md-6 mb-3">
                   <label class="form-label">Tipo de Endereço *</label>
-                  <select class="form-select" required>
+                  <select class="form-select" name="tipoEndereco" required>
                     <option value="">Selecione...</option>
-                    <option value="cobranca">Cobrança</option>
-                    <option value="entrega">Entrega</option>
-                    <option value="cobranca_entrega">Cobrança e Entrega</option>
+                    <option value="Cobrança">Cobrança</option>
+                    <option value="Cntrega">Entrega</option>
+                    <option value="Cobrança e entrega">
+                      Cobrança e Entrega
+                    </option>
                   </select>
                 </div>
               </div>
@@ -46,7 +53,7 @@
               <div class="row">
                 <div class="col-md-6 mb-3">
                   <label class="form-label">Tipo de residência *</label>
-                  <select class="form-select" required>
+                  <select class="form-select" name="tipoResidencia" required>
                     <option value="">Selecione...</option>
                     <option>Casa</option>
                     <option>Apartamento</option>
@@ -55,12 +62,11 @@
                 </div>
                 <div class="col-md-6 mb-3">
                   <label class="form-label">Tipo Logradouro *</label>
-                  <select class="form-select" required>
+                  <select class="form-select" name="tipoLogradouro" required>
                     <option value="">Selecione...</option>
                     <option>Rua</option>
                     <option>Avenida</option>
                     <option>Travessa</option>
-                    <option>Alameda</option>
                   </select>
                 </div>
               </div>
@@ -68,24 +74,40 @@
               <div class="row">
                 <div class="col-md-8 mb-3">
                   <label class="form-label">Logradouro *</label>
-                  <input type="text" class="form-control" required />
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="logradouro"
+                    required
+                  />
                 </div>
                 <div class="col-md-4 mb-3">
                   <label class="form-label">Número *</label>
-                  <input type="text" class="form-control" required />
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="numero"
+                    required
+                  />
                 </div>
               </div>
 
               <div class="row">
                 <div class="col-md-6 mb-3">
                   <label class="form-label">Bairro *</label>
-                  <input type="text" class="form-control" required />
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="bairro"
+                    required
+                  />
                 </div>
                 <div class="col-md-6 mb-3">
                   <label class="form-label">CEP *</label>
                   <input
                     type="text"
                     class="form-control"
+                    name="cep"
                     placeholder="00000-000"
                     required
                   />
@@ -95,17 +117,28 @@
               <div class="row">
                 <div class="col-md-4 mb-3">
                   <label class="form-label">Cidade *</label>
-                  <input type="text" class="form-control" required />
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="cidade"
+                    required
+                  />
                 </div>
                 <div class="col-md-4 mb-3">
                   <label class="form-label">Estado *</label>
-                  <input type="text" class="form-control" required />
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="estado"
+                    required
+                  />
                 </div>
                 <div class="col-md-4 mb-3">
                   <label class="form-label">País *</label>
                   <input
                     type="text"
                     class="form-control"
+                    name="pais"
                     value="Brasil"
                     required
                   />
@@ -114,19 +147,16 @@
 
               <div class="mb-3">
                 <label class="form-label">Observações</label>
-                <textarea class="form-control" rows="3"></textarea>
+                <textarea
+                  class="form-control"
+                  name="observacoes"
+                  rows="3"
+                ></textarea>
               </div>
 
-              <div class="d-flex justify-content-start">
-                <div class="justify-content-between">
-                  <button type="submit" class="btn btn-success">
-                    Confirmar
-                  </button>
-                  <button type="submit" class="btn btn-success">
-                    Confirmar e Salvar Endereço
-                  </button>
-                </div>
-              </div>
+              <button type="submit" class="btn btn-success">
+                Salvar Endereço
+              </button>
             </form>
           </div>
         </div>
@@ -136,5 +166,7 @@
     <footer class="bg-dark text-white text-center p-2">
       <p>&copy; E-commerce PetShop.</p>
     </footer>
+
+    <script src="../assets/js/criarEnderecoCarrinho.js"></script>
   </body>
 </html>
