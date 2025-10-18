@@ -1,11 +1,11 @@
 describe('Fluxo de Cadastro de Cliente', () => {
   it('Deve preencher formulário e cadastrar cliente com sucesso', () => {
-    cy.visit('http://10.5.0.2:8080/clientes/criarCliente.html'); 
+    cy.visit('http://127.0.0.1:5500/clientes/criarCliente.html'); 
 
     cy.get('#genero').select('Feminino');
     cy.get('#nome').type('Maria da Silva');
     cy.get('#dataNascimento').type('1995-05-10');
-    cy.get('#cpf').type('12345678911');
+    cy.get('#cpf').type('12345678915');
     cy.get('#email').type('maria2@email.com');
     cy.get('#senha').type('Teste@123');
     cy.get('#confirmarSenha').type('Teste@123');

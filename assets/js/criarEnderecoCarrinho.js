@@ -1,6 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.querySelector("form");
+<<<<<<< HEAD
   const userId = 20
+=======
+
+  const userId = 20;
+>>>>>>> 96b2ce444356e5f068e9cf8ad6b55cc6cc5cf5e4
 
   if (!userId) {
     alert("Usuário não especificado.");
@@ -42,7 +47,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (res.ok) {
         alert("Endereço criado com sucesso!");
+<<<<<<< HEAD
         window.location.href = `listarEnderecos.html?userId=${userId}`;
+=======
+        window.location.href = `/produtos/crirarCompra.html.html`;
+>>>>>>> 96b2ce444356e5f068e9cf8ad6b55cc6cc5cf5e4
       } else {
         const erro = await res.text();
         alert("Erro ao criar endereço: " + erro);

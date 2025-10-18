@@ -26,6 +26,20 @@
     <main class="container mt-5">
       <h3 class="text-center mb-4">Histórico de Vendas</h3>
 
+      <form class="row g-3 mb-4">
+        <div class="col-md-4">
+          <label for="dataInicio" class="form-label">Data Início</label>
+          <input type="date" id="dataInicio" class="form-control" />
+        </div>
+        <div class="col-md-4">
+          <label for="dataFim" class="form-label">Data Fim</label>
+          <input type="date" id="dataFim" class="form-control" />
+        </div>
+        <div class="col-md-4 d-flex align-items-end">
+          <button type="submit" class="btn btn-primary w-100">Filtrar</button>
+        </div>
+      </form>
+
       <div class="card shadow p-4">
         <canvas id="graficoVendas"></canvas>
       </div>
