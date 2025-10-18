@@ -1,8 +1,7 @@
 document.addEventListener("DOMContentLoaded", async () => {
-  const userId = 20; // mockado temporariamente
+  const userId = 20;
   const frete = 20;
 
-  // Elementos do DOM
   const listaProdutos = document.getElementById("lista-produtos");
   const subtotalSpan = document.getElementById("subtotal");
   const freteSpan = document.getElementById("frete");
@@ -25,7 +24,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   try {
-    // === 1. Buscar itens do carrinho ===
     const responseCarrinho = await fetch(
       "http://localhost:3000/api/getCartItems"
     );
@@ -68,7 +66,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     freteSpan.textContent = `R$ ${frete.toFixed(2)}`;
     totalSpan.textContent = `R$ ${(subtotal + frete).toFixed(2)}`;
 
-    // === 2. Buscar endereços ===
     const responseEnderecos = await fetch(
       `http://localhost:3000/api/getEnderecos?userId=${userId}`
     );
@@ -90,7 +87,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       selectEndereco.appendChild(opt);
     }
 
-    // === 3. Buscar cartões (com checkboxes) ===
     const responseCartoes = await fetch(
       `http://localhost:3000/api/getCartoes?userId=${userId}`
     );
@@ -117,7 +113,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         '<p class="text-muted">Nenhum cartão cadastrado.</p>';
     }
 
-    // === 4. Finalizar compra ===
     btnFinalizar.addEventListener("click", async () => {
       const enderecoId = parseInt(selectEndereco.value);
       if (!enderecoId) return alert("Selecione um endereço!");
