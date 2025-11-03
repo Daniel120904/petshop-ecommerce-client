@@ -1,11 +1,50 @@
 document.addEventListener("DOMContentLoaded", async () => {
-  const userId = 20; // mock temporário
+  const userId = 20;
   const FRETE_FIXO = 20;
   const container = document.querySelector(".col-md-10");
 
   if (!container) {
     console.error("Elemento .col-md-10 não encontrado no DOM");
     return;
+  }
+
+  const statusMap = {
+    processamento: { text: "EM PROCESSAMENTO", class: "bg-warning" },
+    aprovada: { text: "APROVADA", class: "bg-info" },
+    reprovada: { text: "REPROVADA", class: "bg-danger" },
+    transito: { text: "EM TRÂNSITO", class: "bg-secondary" },
+    emTroca: { text: "EM TROCA", class: "bg-warning" },
+    trocaAutorizada: { text: "TROCA AUTORIZADA", class: "bg-success" },
+    entregue: { text: "ENTREGUE", class: "bg-success" }
+  };
+
+  async function solicitarTroca(vendaId) {
+    if (!confirm("Deseja realmente solicitar a troca desta compra?")) {
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:3000/api/updateStatusSale", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          id: vendaId,
+          status: "emTroca"
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error("Erro ao solicitar troca");
+      }
+
+      alert("Solicitação de troca realizada com sucesso!");
+      location.reload();
+    } catch (err) {
+      console.error("Erro ao solicitar troca:", err);
+      alert("Erro ao solicitar troca. Tente novamente.");
+    }
   }
 
   try {
@@ -17,12 +56,11 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
-    container.innerHTML = ""; // limpa conteúdo estático
+    container.innerHTML = "";
 
     vendas.forEach((venda) => {
       const dataFormatada = new Date(venda.createdAt).toLocaleDateString("pt-BR");
 
-      // === Itens da Venda ===
       let itensHTML = "";
       venda.items.forEach((item) => {
         const nomeProduto = item.product?.name || `Produto ${item.productId}`;
@@ -35,7 +73,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         `;
       });
 
-      // === Pagamentos ===
       let pagamentosTexto = "";
       if (venda.payments && venda.payments.length > 0) {
         pagamentosTexto = venda.payments
@@ -51,19 +88,19 @@ document.addEventListener("DOMContentLoaded", async () => {
         pagamentosTexto = "Não informado";
       }
 
-      // Frete fixo já incluso no totalValue
       const frete = FRETE_FIXO;
 
-      // Status (caso ainda não exista no backend)
-      const status = venda.status || "EM PROCESSAMENTO";
-      const statusClass =
-        status === "ENTREGUE"
-          ? "bg-success"
-          : status === "EM TRÂNSITO"
-          ? "bg-info"
-          : "bg-secondary";
+      const statusInfo = statusMap[venda.status] || { text: venda.status.toUpperCase(), class: "bg-secondary" };
 
-      // === Card ===
+      let botaoTrocaHTML = "";
+      if (venda.status === "entregue") {
+        botaoTrocaHTML = `
+          <button class="btn btn-warning btn-sm" onclick="solicitarTroca(${venda.id})">
+            Solicitar Troca
+          </button>
+        `;
+      }
+
       const card = document.createElement("div");
       card.classList.add("card", "mb-4", "shadow");
 
@@ -83,18 +120,17 @@ document.addEventListener("DOMContentLoaded", async () => {
           <p><strong>Pagamento:</strong> ${pagamentosTexto}</p>
           <p>
             <strong>Status:</strong>
-            <span class="badge ${statusClass}">${status}</span>
+            <span class="badge ${statusInfo.class}">${statusInfo.text}</span>
           </p>
         </div>
-        <div class="card-footer d-flex justify-content-end">
-          <button class="btn btn-warning btn-sm me-2">
-            Solicitar Troca
-          </button>
-        </div>
+        ${botaoTrocaHTML ? `<div class="card-footer d-flex justify-content-end">${botaoTrocaHTML}</div>` : ''}
       `;
 
       container.appendChild(card);
     });
+
+    window.solicitarTroca = solicitarTroca;
+
   } catch (err) {
     console.error("Erro ao buscar compras:", err);
     container.innerHTML = `<p class="text-center text-danger">Erro ao carregar histórico de compras.</p>`;

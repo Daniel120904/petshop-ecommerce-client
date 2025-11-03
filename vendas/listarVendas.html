@@ -40,9 +40,8 @@
       <table class="table table-bordered table-hover align-middle">
         <thead class="table-primary">
           <tr>
+            <th>ID</th>
             <th>Cliente</th>
-            <th>Categoria</th>
-            <th>Subcategoria</th>
             <th>Data</th>
             <th>Status</th>
             <th>Ações</th>
@@ -50,59 +49,10 @@
         </thead>
         <tbody>
           <tr>
-            <td>João Silva</td>
-            <td>Cachorro</td>
-            <td>Ração</td>
-            <td>31/08/2025</td>
-            <td><span class="badge bg-warning">EM PROCESSAMENTO</span></td>
-            <td>
-              <button class="btn btn-success btn-sm">Aprovar Pagamento</button>
-              <button class="btn btn-danger btn-sm">Reprovar Pagamento</button>
-            </td>
-          </tr>
-
-          <tr>
-            <td>Maria Oliveira</td>
-            <td>Gato</td>
-            <td>Brinquedo</td>
-            <td>30/08/2025</td>
-            <td><span class="badge bg-info">APROVADA</span></td>
-            <td>
-              <button class="btn btn-primary btn-sm">Enviar para Transporte</button>
-            </td>
-          </tr>
-
-          <tr>
-            <td>Carlos Souza</td>
-            <td>Cachorro</td>
-            <td>Medicamento</td>
-            <td>28/08/2025</td>
-            <td><span class="badge bg-secondary">EM TRÂNSITO</span></td>
-            <td>
-              <button class="btn btn-dark btn-sm">Confirmar Entrega</button>
-            </td>
-          </tr>
-
-          <tr>
-            <td>Fernanda Lima</td>
-            <td>Pássaro</td>
-            <td>Gaiola</td>
-            <td>27/08/2025</td>
-            <td><span class="badge bg-danger">EM TROCA</span></td>
-            <td>
-              <button class="btn btn-warning btn-sm">Autorizar Troca</button>
-              <button class="btn btn-info btn-sm">Confirmar Recebimento</button>
-            </td>
-          </tr>
-
-          <tr>
-            <td>Pedro Almeida</td>
-            <td>Peixe</td>
-            <td>Aquário</td>
-            <td>25/08/2025</td>
-            <td><span class="badge bg-success">ENTREGUE</span></td>
-            <td>
-              <span class="text-muted">Sem ações disponíveis</span>
+            <td colspan="5" class="text-center">
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Carregando...</span>
+              </div>
             </td>
           </tr>
         </tbody>
@@ -112,5 +62,7 @@
     <footer class="bg-dark text-white text-center p-2 mt-5 fixed-bottom">
       <p>&copy; E-commerce PetShop.</p>
     </footer>
+
+    <script src="../assets/js/listarVendas.js"></script>
   </body>
 </html>
