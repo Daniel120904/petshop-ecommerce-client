@@ -67,10 +67,13 @@ describe("Fluxo completo de compra - PetShop", () => {
       cy.stub(win, "alert").as("alertStub");
     });
 
-    cy.get('form').submit();
+    cy.get("form").submit();
     cy.wait("@createEndereco").its("response.statusCode").should("eq", 200);
 
-    cy.get("@alertStub").should("have.been.calledWith", "Endereço criado com sucesso!");
+    cy.get("@alertStub").should(
+      "have.been.calledWith",
+      "Endereço criado com sucesso!"
+    );
   });
 
   it("Deve cadastrar um novo cartão durante a compra", () => {
@@ -90,18 +93,19 @@ describe("Fluxo completo de compra - PetShop", () => {
       cy.stub(win, "alert").as("alertStub");
     });
 
-    cy.get('form').submit();
+    cy.get("form").submit();
     cy.wait("@createCartao").its("response.statusCode").should("eq", 200);
 
-    cy.get("@alertStub").should("have.been.calledWith", "Cartão salvo com sucesso!");
+    cy.get("@alertStub").should(
+      "have.been.calledWith",
+      "Cartão salvo com sucesso!"
+    );
   });
 
   it("Deve finalizar uma compra completa: cadastrar endereço, cartão, comprar e verificar histórico", () => {
     cy.intercept("GET", "**/api/getCartItems", {
       statusCode: 200,
-      body: [
-        { name: "Ração Premium", price: 100, quantity: 1, image: "" },
-      ],
+      body: [{ name: "Ração Premium", price: 100, quantity: 1, image: "" }],
     }).as("getCartItems");
 
     cy.intercept("GET", "**/api/getEnderecos*", {
@@ -119,7 +123,10 @@ describe("Fluxo completo de compra - PetShop", () => {
     cy.wait("@getEnderecosVazio");
     cy.wait("@getCartoesVazio");
 
-    cy.get("#select-endereco option").should("contain", "Nenhum endereço cadastrado");
+    cy.get("#select-endereco option").should(
+      "contain",
+      "Nenhum endereço cadastrado"
+    );
     cy.get("#lista-cartoes").should("contain", "Nenhum cartão cadastrado");
 
     cy.intercept("POST", "**/api/createEndereco", {
@@ -146,7 +153,7 @@ describe("Fluxo completo de compra - PetShop", () => {
       cy.stub(win.location, "href").as("locationHref");
     });
 
-    cy.get('form').submit();
+    cy.get("form").submit();
     cy.wait("@createEndereco");
 
     cy.intercept("POST", "**/api/createCartao", {
@@ -165,7 +172,7 @@ describe("Fluxo completo de compra - PetShop", () => {
       cy.stub(win, "alert").as("alertCartao");
     });
 
-    cy.get('form').submit();
+    cy.get("form").submit();
     cy.wait("@createCartao");
 
     cy.intercept("GET", "**/api/getEnderecos*", {
@@ -193,7 +200,10 @@ describe("Fluxo completo de compra - PetShop", () => {
     cy.get("#cartao-40").check();
     cy.wait(1000);
 
-    cy.get('input.cart-valor[data-card-id="40"]').should("have.value", "120.00");
+    cy.get('input.cart-valor[data-card-id="40"]').should(
+      "have.value",
+      "120.00"
+    );
 
     cy.get("#btn-finalizar").click();
     cy.wait("@createSale").its("response.statusCode").should("eq", 200);
@@ -206,7 +216,7 @@ describe("Fluxo completo de compra - PetShop", () => {
           userId: 20,
           totalValue: 100, // sem frete
           createdAt: new Date().toISOString(),
-          status: "EM PROCESSAMENTO",
+          status: "processamento",
           items: [
             {
               productId: 1,
@@ -450,21 +460,139 @@ describe("Fluxo completo de compra - PetShop", () => {
 
     cy.wait(1000);
 
-    cy.get('input.cart-valor[data-card-id="1"]').invoke("val").should("not.be.empty");
-    cy.get('input.cart-valor[data-card-id="2"]').invoke("val").should("not.be.empty");
-    cy.get('input.cart-valor[data-card-id="3"]').invoke("val").should("not.be.empty");
+    cy.get('input.cart-valor[data-card-id="1"]')
+      .invoke("val")
+      .should("not.be.empty");
+    cy.get('input.cart-valor[data-card-id="2"]')
+      .invoke("val")
+      .should("not.be.empty");
+    cy.get('input.cart-valor[data-card-id="3"]')
+      .invoke("val")
+      .should("not.be.empty");
 
     cy.get("#cartao-3").uncheck();
     cy.wait(500);
 
     cy.get('input.cart-valor[data-card-id="3"]').should("have.value", "");
 
-    cy.get('input.cart-valor[data-card-id="1"]').invoke("val").then((val) => {
-      expect(parseFloat(val)).to.be.greaterThan(0);
+    cy.get('input.cart-valor[data-card-id="1"]')
+      .invoke("val")
+      .then((val) => {
+        expect(parseFloat(val)).to.be.greaterThan(0);
+      });
+
+    cy.get('input.cart-valor[data-card-id="2"]')
+      .invoke("val")
+      .then((val) => {
+        expect(parseFloat(val)).to.be.greaterThan(0);
+      });
+  });
+
+  it("Deve solicitar troca de uma compra entregue com sucesso", () => {
+    cy.intercept("GET", "**/api/getSalesUser*", {
+      statusCode: 200,
+      body: [
+        {
+          id: 6,
+          userId: 20,
+          totalValue: 100,
+          createdAt: "2025-10-20T14:00:00.000Z",
+          status: "entregue",
+          items: [
+            {
+              productId: 2,
+              quantity: 1,
+              price: 100,
+              product: { name: "Brinquedo Bola" },
+            },
+          ],
+          payments: [
+            {
+              cardId: 51,
+              amount: 100,
+              card: { numero: "5555666677778888", bandeira: "Master" },
+            },
+          ],
+        },
+      ],
+    }).as("getSalesUser");
+
+    cy.intercept("PUT", "**/api/updateStatusSale", {
+      statusCode: 200,
+      body: { success: true },
+    }).as("updateStatusSale");
+
+    cy.visit("http://127.0.0.1:5501/produtos/lisrarCompras.html");
+    cy.wait("@getSalesUser");
+
+    cy.contains(/Código: #6/).should("be.visible");
+    cy.contains(/entregue/i).should("be.visible");
+
+    cy.window().then((win) => {
+      cy.stub(win, "confirm").returns(true);
+      cy.stub(win, "alert").as("alertStub");
     });
 
-    cy.get('input.cart-valor[data-card-id="2"]').invoke("val").then((val) => {
-      expect(parseFloat(val)).to.be.greaterThan(0);
+    cy.contains("button", /solicitar troca/i, { timeout: 10000 })
+      .should("be.visible")
+      .click();
+
+    cy.wait("@updateStatusSale").then((interception) => {
+      expect(interception.request.body.id).to.equal(6);
+      expect(interception.request.body.status).to.equal("emTroca");
     });
+
+    cy.get("@alertStub").should(
+      "have.been.calledWith",
+      "Solicitação de troca realizada com sucesso!"
+    );
+  });
+
+  it("Deve cancelar solicitação de troca quando usuário não confirmar", () => {
+    cy.intercept("GET", "**/api/getSalesUser*", {
+      statusCode: 200,
+      body: [
+        {
+          id: 201,
+          userId: 20,
+          totalValue: 100,
+          createdAt: "2025-10-20T14:00:00.000Z",
+          status: "entregue",
+          items: [
+            {
+              productId: 2,
+              quantity: 1,
+              price: 100,
+              product: { name: "Brinquedo Bola" },
+            },
+          ],
+          payments: [
+            {
+              cardId: 51,
+              amount: 120,
+              card: { numero: "5555666677778888", bandeira: "Master" },
+            },
+          ],
+        },
+      ],
+    }).as("getSalesUser");
+
+    cy.intercept("PUT", "**/api/updateStatusSale").as("updateStatusSale");
+
+    cy.visit("http://127.0.0.1:5501/produtos/lisrarCompras.html");
+    cy.wait("@getSalesUser");
+
+    cy.contains("Código: #201").should("be.visible");
+    cy.contains("ENTREGUE").should("be.visible");
+
+    cy.window().then((win) => {
+      cy.stub(win, "confirm").returns(false);
+    });
+
+    cy.contains("button", "Solicitar Troca").click();
+
+    cy.get("@updateStatusSale.all").should("have.length", 0);
+
+    cy.contains("ENTREGUE").should("be.visible");
   });
 });

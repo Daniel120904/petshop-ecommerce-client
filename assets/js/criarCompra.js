@@ -301,7 +301,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       const body = {
         addressId: enderecoId,
         payments,
-        couponCode: couponCode || null,
+        couponCode: couponCode || "",
       };
 
       try {
