@@ -49,56 +49,6 @@
       <p>&copy; E-commerce PetShop.</p>
     </footer>
 
-    <script>
-      const labels = ["01/08", "05/08", "10/08", "15/08", "20/08", "25/08", "30/08"];
-      const data = {
-        labels: labels,
-        datasets: [
-          {
-            label: "Vendas",
-            data: [5, 8, 12, 9, 14, 10, 16],
-            borderColor: "rgb(75, 192, 192)",
-            backgroundColor: "rgba(75, 192, 192, 0.2)",
-            tension: 0.3,
-            fill: true,
-          },
-        ],
-      };
-
-      const config = {
-        type: "line",
-        data: data,
-        options: {
-          responsive: true,
-          plugins: {
-            legend: {
-              display: true,
-              position: "top",
-            },
-            title: {
-              display: true,
-              text: "Quantidade de Vendas ao Longo do Tempo",
-            },
-          },
-          scales: {
-            y: {
-              beginAtZero: true,
-              title: {
-                display: true,
-                text: "Vendas",
-              },
-            },
-            x: {
-              title: {
-                display: true,
-                text: "Período",
-              },
-            },
-          },
-        },
-      };
-
-      new Chart(document.getElementById("graficoVendas"), config);
-    </script>
+    <script src="../assets/js/listarVendasGrafico.js"></script>
   </body>
 </html>
