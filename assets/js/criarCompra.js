@@ -14,8 +14,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   let subtotal = 0;
   let totalCompra = 0;
-  let desconto = 0;
-  let couponCode = null;
+  let cupomPromocional = null; // Armazena o cupom promocional (apenas 1)
+  let cuponsDetroca = []; // Array de cupons de troca
+  let descontoTotal = 0;
 
   if (
     !listaProdutos ||
@@ -52,9 +53,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       );
       li.innerHTML = `
         <div class="d-flex align-items-center">
-          <img src="${item.image || "https://via.placeholder.com/50"}" alt="${
-        item.name
-      }" class="me-2 rounded" style="width:50px;height:50px;object-fit:cover;">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYuGcK-7NWhZmMhqL6ml3qHbyFliz7nkzkKA&s" alt="${
+            item.name
+          }" class="me-2 rounded" style="width:50px;height:50px;object-fit:cover;">
           <span>${item.name} (${item.quantity} unid.)</span>
         </div>
         <span>R$ ${(item.price * item.quantity).toFixed(2)}</span>
@@ -123,6 +124,110 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
     }
 
+    // Container para mostrar cupons aplicados
+    const couponContainer = document.createElement("div");
+    couponContainer.id = "cupons-aplicados";
+    couponContainer.className = "mt-3";
+    applyCouponBtn.parentElement.appendChild(couponContainer);
+
+    const calcularDesconto = () => {
+      let desconto = 0;
+
+      // Aplica desconto do cupom promocional (porcentagem)
+      if (cupomPromocional) {
+        const descontoPromocional =
+          (subtotal * cupomPromocional.discountPercentage) / 100;
+        desconto += descontoPromocional;
+        console.log(
+          `Cupom promocional: ${
+            cupomPromocional.discountPercentage
+          }% = R$ ${descontoPromocional.toFixed(2)}`
+        );
+      }
+
+      // Aplica descontos dos cupons de troca (valores fixos)
+      cuponsDetroca.forEach((cupom) => {
+        desconto += cupom.discountValue;
+        console.log(
+          `Cupom de troca ${cupom.code}: R$ ${cupom.discountValue.toFixed(2)}`
+        );
+      });
+
+      console.log(`Desconto total calculado: R$ ${desconto.toFixed(2)}`);
+      return desconto;
+    };
+
+    const atualizarTotal = () => {
+      descontoTotal = calcularDesconto();
+
+      console.log(`Subtotal: R$ ${subtotal.toFixed(2)}`);
+      console.log(`Frete: R$ ${frete.toFixed(2)}`);
+      console.log(`Desconto: R$ ${descontoTotal.toFixed(2)}`);
+
+      // Não deixa o total ficar negativo
+      totalCompra = Math.max(0, subtotal + frete - descontoTotal);
+
+      console.log(`Total da compra: R$ ${totalCompra.toFixed(2)}`);
+
+      totalSpan.textContent = `R$ ${totalCompra.toFixed(2)}`;
+
+      if (descontoTotal > 0) {
+        const totalElement = document.getElementById("total");
+        if (totalElement && totalElement.parentElement) {
+          totalElement.parentElement.classList.add("text-success");
+          totalElement.parentElement.innerHTML = `<strong>Total:</strong> <span id="total" class="text-success">R$ ${totalCompra.toFixed(
+            2
+          )}</span> <small class="text-muted">(desconto: R$ ${descontoTotal.toFixed(
+            2
+          )})</small>`;
+        }
+      }
+
+      redistribuirValores();
+    };
+
+    const renderizarCupons = () => {
+      const container = document.getElementById("cupons-aplicados");
+      container.innerHTML = "";
+
+      if (cupomPromocional) {
+        const div = document.createElement("div");
+        div.className =
+          "alert alert-success d-flex justify-content-between align-items-center mt-2";
+        div.innerHTML = `
+          <span><strong>Cupom Promocional:</strong> ${cupomPromocional.code} (-${cupomPromocional.discountPercentage}%)</span>
+          <button class="btn btn-sm btn-danger" onclick="removerCupomPromocional()">Remover</button>
+        `;
+        container.appendChild(div);
+      }
+
+      cuponsDetroca.forEach((cupom, index) => {
+        const div = document.createElement("div");
+        div.className =
+          "alert alert-info d-flex justify-content-between align-items-center mt-2";
+        div.innerHTML = `
+          <span><strong>Cupom de Troca:</strong> ${
+            cupom.code
+          } (-R$ ${cupom.discountValue.toFixed(2)})</span>
+          <button class="btn btn-sm btn-danger" onclick="removerCupomTroca(${index})">Remover</button>
+        `;
+        container.appendChild(div);
+      });
+    };
+
+    // Funções globais para remover cupons
+    window.removerCupomPromocional = () => {
+      cupomPromocional = null;
+      renderizarCupons();
+      atualizarTotal();
+    };
+
+    window.removerCupomTroca = (index) => {
+      cuponsDetroca.splice(index, 1);
+      renderizarCupons();
+      atualizarTotal();
+    };
+
     applyCouponBtn.addEventListener("click", async () => {
       const code = couponInput.value.trim();
       if (!code) return alert("Digite um código de cupom!");
@@ -131,24 +236,46 @@ document.addEventListener("DOMContentLoaded", async () => {
         const res = await fetch(
           `http://localhost:3000/api/getCoupon?coupon=${code}`
         );
-        if (!res.ok) throw new Error("Cupom inválido");
+
+        if (!res.ok) {
+          alert("Cupom inválido ou expirado.");
+          return;
+        }
+
         const data = await res.json();
 
-        desconto = (subtotal * data.discountPercentage) / 100;
-        couponCode = data.code;
-        totalCompra = subtotal + frete - desconto;
+        // Verifica se é cupom promocional (porcentagem)
+        if (data.discountPercentage !== null && data.discountValue === null) {
+          if (cupomPromocional) {
+            alert(
+              "Você já aplicou um cupom promocional! Remova o atual para adicionar outro."
+            );
+            return;
+          }
+          cupomPromocional = data;
+        }
+        // Verifica se é cupom de troca (valor fixo)
+        else if (
+          data.discountValue !== null &&
+          data.discountPercentage === null
+        ) {
+          // Verifica se o cupom já foi aplicado
+          if (cuponsDetroca.some((c) => c.code === data.code)) {
+            alert("Este cupom de troca já foi aplicado!");
+            return;
+          }
+          cuponsDetroca.push(data);
+        } else {
+          alert("Cupom inválido: formato desconhecido.");
+          return;
+        }
 
-        totalSpan.textContent = `R$ ${totalCompra.toFixed(2)}`;
-        applyCouponBtn.textContent = "Cupom aplicado!";
-        applyCouponBtn.disabled = true;
-        couponInput.disabled = true;
-        applyCouponBtn.classList.remove("btn-primary");
-        applyCouponBtn.classList.add("btn-success");
-
-        redistribuirValores();
+        couponInput.value = "";
+        renderizarCupons();
+        atualizarTotal();
       } catch (err) {
-        alert("Cupom inválido ou expirado.");
-        console.error(err);
+        console.error("Erro ao aplicar cupom:", err);
+        alert("Erro ao processar cupom. Tente novamente.");
       }
     });
 
@@ -259,6 +386,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       let soma = 0;
       let erros = [];
 
+      // Verifica se há cupons de troca aplicados
+      const temCupomTroca = cuponsDetroca.length > 0;
+
       for (let cb of selectedCheckboxes) {
         const valorInput =
           cb.parentElement.parentElement.querySelector(".cart-valor");
@@ -271,7 +401,8 @@ document.addEventListener("DOMContentLoaded", async () => {
           break;
         }
 
-        if (valor < 10) {
+        // Ignora a barreira de R$ 10,00 se houver cupom de troca
+        if (!temCupomTroca && valor < 10) {
           const bandeira = cb.parentElement.querySelector("label").textContent;
           erros.push(
             `${bandeira}: valor mínimo é R$ 10,00 (atual: R$ ${valor.toFixed(
@@ -301,7 +432,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       const body = {
         addressId: enderecoId,
         payments,
-        couponCode: couponCode || "",
       };
 
       try {
