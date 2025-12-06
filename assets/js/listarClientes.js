@@ -1,10 +1,9 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const tabelaBody = document.querySelector("#tabelaClientes");
-  const inputBusca = document.querySelector(".form-control"); // campo de texto
+  const inputBusca = document.querySelector(".form-control");
   const filtros = document.querySelectorAll(".filtro-opcao");
   const selectAll = document.querySelector("#selectAll");
 
-  // Função que monta a query string com base nos filtros
   function montarQuery() {
     const valorBusca = inputBusca.value.trim();
     const filtrosMarcados = Array.from(filtros).filter((f) => f.checked);
@@ -14,10 +13,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     const query = {};
 
     if (filtrosMarcados.length === 0) {
-      // Nenhum filtro → busca em todos (mandar só um campo "search")
       query.search = valorBusca;
     } else {
-      // Se tiver filtros, só manda os que estão marcados
       filtrosMarcados.forEach((filtro) => {
         if (filtro.id === "filtroNome") query.nome = valorBusca;
         if (filtro.id === "filtroCpf") query.cpf = valorBusca;
@@ -29,7 +26,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     return new URLSearchParams(query).toString();
   }
 
-  // Função que busca os clientes
   async function carregarClientes() {
     try {
       const query = montarQuery();
@@ -89,7 +85,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         tabelaBody.appendChild(tr);
       });
 
-      // Excluir usuário
       document.querySelectorAll(".btnExcluir").forEach((btn) => {
         btn.addEventListener("click", async () => {
           if (!confirm("Deseja excluir este cliente?")) return;
@@ -108,7 +103,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
       });
 
-      // Toggle status
       document.querySelectorAll(".toggle-status").forEach((chk) => {
         chk.addEventListener("change", async () => {
           const userId = chk.getAttribute("data-id");
@@ -143,18 +137,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-  // Buscar clientes ao carregar a página
   await carregarClientes();
 
-  // Evento para buscar quando digitar no input
   inputBusca.addEventListener("input", carregarClientes);
 
-  // Evento para checkboxes de filtro
   filtros.forEach((filtro) =>
     filtro.addEventListener("change", carregarClientes)
   );
 
-  // "Selecionar todos"
   selectAll.addEventListener("change", () => {
     filtros.forEach((filtro) => (filtro.checked = selectAll.checked));
     carregarClientes();

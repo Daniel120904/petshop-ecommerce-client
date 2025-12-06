@@ -160,44 +160,58 @@ document.addEventListener("DOMContentLoaded", async () => {
     const atualizarTotal = () => {
       descontoTotal = calcularDesconto();
 
-      console.log(`Subtotal: R$ ${subtotal.toFixed(2)}`);
-      console.log(`Frete: R$ ${frete.toFixed(2)}`);
-      console.log(`Desconto: R$ ${descontoTotal.toFixed(2)}`);
-
-      // Não deixa o total ficar negativo
+      // Calcula total garantindo >= 0
       totalCompra = Math.max(0, subtotal + frete - descontoTotal);
 
-      console.log(`Total da compra: R$ ${totalCompra.toFixed(2)}`);
+      // Busca sempre o elemento atual do DOM (não usar a referência cacheada)
+      const totalElement = document.getElementById("total");
 
-      totalSpan.textContent = `R$ ${totalCompra.toFixed(2)}`;
-
-      if (descontoTotal > 0) {
-        const totalElement = document.getElementById("total");
-        if (totalElement && totalElement.parentElement) {
-          totalElement.parentElement.classList.add("text-success");
-          totalElement.parentElement.innerHTML = `<strong>Total:</strong> <span id="total" class="text-success">R$ ${totalCompra.toFixed(
-            2
-          )}</span> <small class="text-muted">(desconto: R$ ${descontoTotal.toFixed(
-            2
-          )})</small>`;
-        }
+      // Atualiza o texto do total (se existir)
+      if (totalElement) {
+        totalElement.textContent = `R$ ${totalCompra.toFixed(2)}`;
       }
 
+      // Ajusta aparência e nota de desconto sem variar o innerHTML do pai
+      const totalParent = totalElement ? totalElement.parentElement : null;
+      if (totalParent) {
+        // Remove/Adiciona classe de destaque
+        if (descontoTotal > 0) {
+          totalParent.classList.add("text-success");
+          // cria (ou atualiza) nota de desconto
+          let note = totalParent.querySelector(".discount-note");
+          if (!note) {
+            note = document.createElement("small");
+            note.className = "text-muted discount-note ms-2";
+            totalParent.appendChild(note);
+          }
+          note.textContent = `(desconto: R$ ${descontoTotal.toFixed(2)})`;
+        } else {
+          totalParent.classList.remove("text-success");
+          const note = totalParent.querySelector(".discount-note");
+          if (note) note.remove();
+        }
+      }
       redistribuirValores();
     };
 
     const renderizarCupons = () => {
       const container = document.getElementById("cupons-aplicados");
+      if (!container) return;
       container.innerHTML = "";
 
       if (cupomPromocional) {
         const div = document.createElement("div");
         div.className =
           "alert alert-success d-flex justify-content-between align-items-center mt-2";
+        // usamos um botão que chama a função global (mantive seu approach)
         div.innerHTML = `
-          <span><strong>Cupom Promocional:</strong> ${cupomPromocional.code} (-${cupomPromocional.discountPercentage}%)</span>
-          <button class="btn btn-sm btn-danger" onclick="removerCupomPromocional()">Remover</button>
-        `;
+      <span><strong>Cupom Promocional:</strong> ${cupomPromocional.code} (-${cupomPromocional.discountPercentage}%)</span>
+      <button class="btn btn-sm btn-danger btn-remove-prom">Remover</button>
+    `;
+        // listener mais seguro que onclick inline
+        div.querySelector(".btn-remove-prom").addEventListener("click", () => {
+          window.removerCupomPromocional();
+        });
         container.appendChild(div);
       }
 
@@ -206,11 +220,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         div.className =
           "alert alert-info d-flex justify-content-between align-items-center mt-2";
         div.innerHTML = `
-          <span><strong>Cupom de Troca:</strong> ${
-            cupom.code
-          } (-R$ ${cupom.discountValue.toFixed(2)})</span>
-          <button class="btn btn-sm btn-danger" onclick="removerCupomTroca(${index})">Remover</button>
-        `;
+      <span><strong>Cupom de Troca:</strong> ${
+        cupom.code
+      } (-R$ ${cupom.discountValue.toFixed(2)})</span>
+      <button class="btn btn-sm btn-danger btn-remove-exch">Remover</button>
+    `;
+        div.querySelector(".btn-remove-exch").addEventListener("click", () => {
+          window.removerCupomTroca(index);
+        });
         container.appendChild(div);
       });
     };
