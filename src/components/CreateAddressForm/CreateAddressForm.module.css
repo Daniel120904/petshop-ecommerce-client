@@ -1,0 +1,52 @@
+.container {
+  width: 90%;
+  max-width: 860px;
+  margin: 36px auto 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.grid3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.spanDouble {
+  grid-column: span 2;
+}
+
+.submitRow {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.errorBanner {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  padding: 14px 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+@media (max-width: 640px) {
+  .grid2,
+  .grid3 {
+    grid-template-columns: 1fr;
+  }
+
+  .spanDouble {
+    grid-column: span 1;
+  }
+}

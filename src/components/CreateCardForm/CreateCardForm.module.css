@@ -1,0 +1,36 @@
+.container {
+  width: 90%;
+  max-width: 700px;
+  margin: 36px auto 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.submitRow {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.errorBanner {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  padding: 14px 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+@media (max-width: 640px) {
+  .grid2 {
+    grid-template-columns: 1fr;
+  }
+}

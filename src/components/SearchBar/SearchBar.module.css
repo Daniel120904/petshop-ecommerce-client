@@ -1,0 +1,125 @@
+.searchWrapper {
+  position: relative;
+}
+
+.inputRow {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  overflow: visible;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.inputRow:focus-within {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.12);
+}
+
+.searchIcon {
+  padding: 0 10px 0 14px;
+  font-size: 1.3rem;
+  color: #94a3b8;
+  user-select: none;
+}
+
+.searchInput {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 0.95rem;
+  padding: 11px 8px;
+  background: transparent;
+  color: #1e293b;
+  min-width: 0;
+}
+
+.searchInput::placeholder {
+  color: #b0bec5;
+}
+
+.filterButton {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: #f8fafc;
+  border: none;
+  border-left: 1.5px solid #e2e8f0;
+  padding: 11px 16px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #475569;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+
+.filterButton:hover {
+  background: #f1f5f9;
+  color: #0d6efd;
+}
+
+.chevron {
+  font-size: 0.85rem;
+  transition: transform 0.2s;
+  display: inline-block;
+}
+
+.chevron.open {
+  transform: rotate(180deg);
+}
+
+.dropdownWrapper {
+  position: relative;
+}
+
+.dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  background: #fff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 10px 6px;
+  min-width: 180px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.filterItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.filterItem:hover {
+  background: #f1f5f9;
+}
+
+.checkbox {
+  width: 16px;
+  height: 16px;
+  accent-color: #0d6efd;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.filterLabel {
+  font-size: 0.9rem;
+  color: #334155;
+  user-select: none;
+}
+
+.divider {
+  height: 1px;
+  background: #e2e8f0;
+  margin: 4px 0;
+}

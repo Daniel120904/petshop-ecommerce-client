@@ -1,0 +1,87 @@
+.container {
+  width: 90%;
+  max-width: 900px;
+  margin: 36px auto 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.grid3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.grid3Phone {
+  display: grid;
+  grid-template-columns: 1fr 0.5fr 1.5fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.spanDouble {
+  grid-column: span 2;
+}
+
+.sectionDivider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #94a3b8;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.sectionDivider::before,
+.sectionDivider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #e2e8f0;
+}
+
+.emptyHint {
+  color: #94a3b8;
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 20px 0 8px;
+}
+
+.errorBanner {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  padding: 14px 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.submitRow {
+  display: flex;
+  justify-content: flex-start;
+  padding-top: 4px;
+}
+
+@media (max-width: 640px) {
+  .grid2,
+  .grid3,
+  .grid3Phone {
+    grid-template-columns: 1fr;
+  }
+
+  .spanDouble {
+    grid-column: span 1;
+  }
+}
