@@ -1,5 +1,4 @@
 import { Header } from "@/components/Header/Header";
-import { Footer } from "@/components/Footer/Footer";
 import { AdminMenu } from "@/components/AdminMenu/AdminMenu";
 
 export default function AdminPage() {
@@ -7,7 +6,6 @@ export default function AdminPage() {
     <>
       <Header title="PetShop - Administrador" showBack />
       <AdminMenu />
-      <Footer />
     </>
   );
 }
