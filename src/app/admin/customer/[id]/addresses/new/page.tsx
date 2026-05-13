@@ -1,5 +1,3 @@
-import { Header } from "@/components/Header/Header";
-import { Footer } from "@/components/Footer/Footer";
 import { CreateAddressForm } from "@/components/CreateAddressForm/CreateAddressForm";
 
 type NewAddressPageProps = {
@@ -12,9 +10,7 @@ export default async function NewAddressPage({ params }: NewAddressPageProps) {
 
   return (
     <>
-      <Header title="Novo Endereço" showBack />
       <CreateAddressForm userId={userId} />
-      <Footer />
     </>
   );
 }

@@ -17,7 +17,6 @@ export default function SalesGraphicPage() {
         navLinks={SALES_NAV}
       />
       <SalesChartView />
-      <Footer />
     </>
   );
 }

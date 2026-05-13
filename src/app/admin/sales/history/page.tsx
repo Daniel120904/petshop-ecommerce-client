@@ -17,7 +17,6 @@ export default function SalesHistoryPage() {
         navLinks={SALES_NAV}
       />
       <SalesListView />
-      <Footer />
     </>
   );
 }

@@ -1,5 +1,3 @@
-import { Header } from "@/components/Header/Header";
-import { Footer } from "@/components/Footer/Footer";
 import { CreateCardForm } from "@/components/CreateCardForm/CreateCardForm";
 
 type NewCardPageProps = {
@@ -12,9 +10,7 @@ export default async function NewCardPage({ params }: NewCardPageProps) {
 
   return (
     <>
-      <Header title="Adicionar Cartão" showBack />
       <CreateCardForm userId={userId} />
-      <Footer />
     </>
   );
 }

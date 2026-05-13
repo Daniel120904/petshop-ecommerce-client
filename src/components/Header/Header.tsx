@@ -17,7 +17,7 @@ export function Header({ title, showBack, backHref = "/", navLinks }: HeaderProp
   return (
     <header className={styles.header}>
       <div className={styles.container}>
-        <h2 className={styles.title}>{title}</h2>
+        <h2 className={styles.title}>{`Petshot - ${title}`}</h2>
 
         {navLinks && navLinks.length > 0 && (
           <nav className={styles.nav}>

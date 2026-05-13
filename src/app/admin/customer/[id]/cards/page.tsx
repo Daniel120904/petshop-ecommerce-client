@@ -1,5 +1,3 @@
-import { Header } from "@/components/Header/Header";
-import { Footer } from "@/components/Footer/Footer";
 import { CardListView } from "@/components/CardListView/CardListView";
 
 type CardsPageProps = {
@@ -12,9 +10,7 @@ export default async function CardsPage({ params }: CardsPageProps) {
 
   return (
     <>
-      <Header title="Lista de Cartões" showBack />
       <CardListView userId={userId} />
-      <Footer />
     </>
   );
 }

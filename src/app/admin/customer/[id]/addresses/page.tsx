@@ -1,5 +1,3 @@
-import { Header } from "@/components/Header/Header";
-import { Footer } from "@/components/Footer/Footer";
 import { AddressListView } from "@/components/AddressListView/AddressListView";
 
 type AddressesPageProps = {
@@ -12,9 +10,7 @@ export default async function AddressesPage({ params }: AddressesPageProps) {
 
   return (
     <>
-      <Header title="Lista de Endereços" showBack />
       <AddressListView userId={userId} />
-      <Footer />
     </>
   );
 }

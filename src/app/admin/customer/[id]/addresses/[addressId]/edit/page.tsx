@@ -1,5 +1,3 @@
-import { Header } from "@/components/Header/Header";
-import { Footer } from "@/components/Footer/Footer";
 import { EditAddressForm } from "@/components/EditAddressForm/EditAddressForm";
 
 type EditAddressPageProps = {
@@ -11,9 +9,7 @@ export default async function EditAddressPage({ params }: EditAddressPageProps) 
 
   return (
     <>
-      <Header title="Editar Endereço" showBack />
       <EditAddressForm userId={Number(id)} addressId={Number(addressId)} />
-      <Footer />
     </>
   );
 }

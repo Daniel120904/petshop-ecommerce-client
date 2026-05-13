@@ -1,5 +1,3 @@
-import { Header } from "@/components/Header/Header";
-import { Footer } from "@/components/Footer/Footer";
 import { ChangePasswordForm } from "@/components/ChangePasswordForm/ChangePasswordForm";
 
 type ChangePasswordPageProps = {
@@ -12,9 +10,7 @@ export default async function ChangePasswordPage({ params }: ChangePasswordPageP
 
   return (
     <>
-      <Header title="Alterar Senha" showBack />
       <ChangePasswordForm customerId={customerId} />
-      <Footer />
     </>
   );
 }

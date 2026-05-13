@@ -1,5 +1,3 @@
-import { Header } from "@/components/Header/Header";
-import { Footer } from "@/components/Footer/Footer";
 import { EditCustomerForm } from "@/components/EditCustomerForm/EditCustomerForm";
 
 type EditCustomerPageProps = {
@@ -12,9 +10,7 @@ export default async function EditCustomerPage({ params }: EditCustomerPageProps
 
   return (
     <>
-      <Header title="Editar Cliente" showBack />
       <EditCustomerForm customerId={customerId} />
-      <Footer />
     </>
   );
 }

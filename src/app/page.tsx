@@ -1,20 +1,11 @@
-import { Button } from "@/components/buttons";
-import styles from "./AdminMenu.module.css";
+import { LoginForm } from "@/components/LoginForm/LoginForm";
 
-export function AdminMenu() {
+export default function LoginPage() {
   return (
-    <main className={styles.container}>
-      <h2>Área do Administrador</h2>
-
-      <div className={styles.buttons}>
-        <Button href="/admin/customer" variant="success">
-          Ir para Clientes
-        </Button>
-
-        <Button href="/admin/sales/history" variant="success">
-          Ir para Vendas
-        </Button>
-      </div>
-    </main>
+    <>
+      <LoginForm />
+    </>
   );
 }
+
+// 1 - Usuario 2 - Linkar com o back | 3 - Criar novas Rotas 4 - Protecao pro banco 5 - Login
