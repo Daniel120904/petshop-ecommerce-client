@@ -1,0 +1,93 @@
+/* ── Página ─────────────────────────────────────────────── */
+.page {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f5f3;
+  padding: 1.5rem;
+  box-sizing: border-box;
+}
+
+.card {
+  width: 100%;
+  max-width: 440px;
+  background: #fff;
+  border: 1px solid #e5e5e3;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+  overflow: hidden;
+}
+
+/* ── Tabs ───────────────────────────────────────────────── */
+.tabs {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid #ebebeb;
+}
+
+.tab {
+  position: relative;
+  z-index: 1;
+  padding: 14px 0;
+  background: none;
+  border: none;
+  font-size: 13px;
+  font-weight: 500;
+  color: #999;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.tabActive {
+  color: #1a1a1a;
+}
+
+.tabIndicator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50%;
+  height: 2px;
+  background: #1a1a1a;
+  border-radius: 2px 2px 0 0;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Slider ─────────────────────────────────────────────── */
+.slider {
+  overflow: hidden;
+}
+
+.track {
+  display: flex;
+  width: 200%;
+  align-items: flex-start;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.panel {
+  width: 50%;
+  padding: 1.75rem 2rem 2rem;
+  box-sizing: border-box;
+}
+
+/* ── Cabeçalho de cada painel ───────────────────────────── */
+.panelHeader {
+  margin-bottom: 1.5rem;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0 0 4px;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: #888;
+  margin: 0;
+}
