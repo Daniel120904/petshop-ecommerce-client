@@ -1,5 +1,6 @@
 import Link from "next/link";
 import styles from "./Header.module.css";
+import { LogoutButton } from "@/components/LogoutButton/LogoutButton";
 
 type NavLink = {
   label: string;
@@ -29,11 +30,14 @@ export function Header({ title, showBack, backHref = "/", navLinks }: HeaderProp
           </nav>
         )}
 
-        {showBack && (
-          <Link href={backHref} className={styles.backButton}>
-            Voltar
-          </Link>
-        )}
+        <div className={styles.actions}>
+          {showBack && (
+            <Link href={backHref} className={styles.backButton}>
+              Voltar
+            </Link>
+          )}
+          <LogoutButton />
+        </div>
       </div>
     </header>
   );
