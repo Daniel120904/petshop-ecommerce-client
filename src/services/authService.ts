@@ -16,7 +16,7 @@ type RefreshResponse = {
 };
 
 export async function loginService(email: string, password: string) {
-  const res = await api<LoginResponse>("/auth/login", {
+  const res = await api<LoginResponse>("/login", {
     method: "POST",
     body: JSON.stringify({ email, password }),
   });
@@ -25,7 +25,7 @@ export async function loginService(email: string, password: string) {
 }
 
 export async function refreshService(refreshToken: string) {
-  const res = await api<RefreshResponse>("/auth/refresh", {
+  const res = await api<RefreshResponse>("/refresh", {
     method: "POST",
     body: JSON.stringify({ refreshToken }),
   });

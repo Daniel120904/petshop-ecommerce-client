@@ -1,5 +1,4 @@
 import { Header } from "@/components/Header/Header";
-import { Footer } from "@/components/Footer/Footer";
 import { SalesChartView } from "@/components/SalesChartView/SalesChartView";
 
 const SALES_NAV = [
