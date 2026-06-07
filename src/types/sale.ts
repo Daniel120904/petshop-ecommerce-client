@@ -15,6 +15,21 @@ export type SaleItem = {
   };
 };
 
+export type SaleResponse = {
+  data: {
+      data: Sale[];
+      meta: {
+        total: number;
+        page: number;
+        pageSize: number;
+        totalPages: number;
+        hasNext: boolean;
+        hasPrev: boolean;
+      };
+    };
+};
+
+
 export type Sale = {
   id: number;
   status: SaleStatus;
@@ -35,13 +50,13 @@ export type StatusConfig = {
 };
 
 export const STATUS_CONFIG: Record<SaleStatus, StatusConfig> = {
-  processamento:   { label: "Em Processamento", color: "#92400e", bg: "#fef3c7" },
-  aprovada:        { label: "Aprovada",          color: "#0369a1", bg: "#e0f2fe" },
-  reprovada:       { label: "Reprovada",         color: "#b91c1c", bg: "#fee2e2" },
-  transito:        { label: "Em Trânsito",       color: "#374151", bg: "#f1f5f9" },
-  emTroca:         { label: "Em Troca",          color: "#b91c1c", bg: "#fee2e2" },
-  trocaAutorizada: { label: "Troca Autorizada",  color: "#166534", bg: "#dcfce7" },
-  entregue:        { label: "Entregue",          color: "#166534", bg: "#dcfce7" },
+  processamento: { label: "Em Processamento", color: "#92400e", bg: "#fef3c7" },
+  aprovada: { label: "Aprovada", color: "#0369a1", bg: "#e0f2fe" },
+  reprovada: { label: "Reprovada", color: "#b91c1c", bg: "#fee2e2" },
+  transito: { label: "Em Trânsito", color: "#374151", bg: "#f1f5f9" },
+  emTroca: { label: "Em Troca", color: "#b91c1c", bg: "#fee2e2" },
+  trocaAutorizada: { label: "Troca Autorizada", color: "#166534", bg: "#dcfce7" },
+  entregue: { label: "Entregue", color: "#166534", bg: "#dcfce7" },
 };
 
 export type StatusAction = {
@@ -52,17 +67,17 @@ export type StatusAction = {
 
 export const STATUS_ACTIONS: Partial<Record<SaleStatus, StatusAction[]>> = {
   processamento: [
-    { label: "Aprovar Pagamento",      nextStatus: "aprovada",  variant: "success" },
-    { label: "Reprovar Pagamento",     nextStatus: "reprovada", variant: "danger"  },
+    { label: "Aprovar Pagamento", nextStatus: "aprovada", variant: "success" },
+    { label: "Reprovar Pagamento", nextStatus: "reprovada", variant: "danger" },
   ],
   aprovada: [
-    { label: "Enviar para Transporte", nextStatus: "transito",  variant: "primary" },
+    { label: "Enviar para Transporte", nextStatus: "transito", variant: "primary" },
   ],
   transito: [
-    { label: "Confirmar Entrega",      nextStatus: "entregue",  variant: "dark"    },
+    { label: "Confirmar Entrega", nextStatus: "entregue", variant: "dark" },
   ],
   emTroca: [
-    { label: "Autorizar Troca",        nextStatus: "trocaAutorizada", variant: "warning" },
+    { label: "Autorizar Troca", nextStatus: "trocaAutorizada", variant: "warning" },
   ],
 };
 

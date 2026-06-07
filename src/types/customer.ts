@@ -1,7 +1,69 @@
+export type CustomerPhone = {
+  number: string;
+  ddd: string;
+};
+
+export type CustomerAddress = {
+  nickname: string;
+  street: string;
+  number: string;
+  complement?: string;
+  neighborhood: string;
+  zip: string;
+  city: string;
+  state: string;
+  abbreviation: string;
+};
+
 export type Customer = {
   id: number;
-  nome: string;
-  status: boolean;
+  name: string;
+  birthday: string;
+  cpf: string;
+  gender: string;
+  email: string;
+  active: boolean;
+  blocked: boolean;
+  phones: CustomerPhone[];
+  addresses: CustomerAddress[];
+  isDelete: boolean;
+  createdAt: string;
+  updatedAt: string;
+  genderId: number;
+  roleId: string;
+};
+
+export type FindCustomer = {
+  data: {
+    id: number;
+    name: string;
+    birthday: string;
+    cpf: string;
+    gender: string;
+    email: string;
+    active: boolean;
+    blocked: boolean;
+    phones: CustomerPhone[];
+    addresses: CustomerAddress[];
+    isDelete: boolean;
+    createdAt: string;
+    updatedAt: string;
+    genderId: number;
+    roleId: string;
+  }
+};
+
+
+export type CustomerResponse = {
+  data: Customer[];
+  meta: {
+    total: number;
+    page: number;
+    pageSize: number;
+    totalPages: number;
+    hasNext: boolean;
+    hasPrev: boolean;
+  };
 };
 
 export type CustomerFilters = {
@@ -51,7 +113,6 @@ export type CreateCustomerPayload = {
   genero: string;
   dataNascimento: string;
   cpf: string;
-  email: string;
   senha: string;
   confirmarSenha: string;
 };
