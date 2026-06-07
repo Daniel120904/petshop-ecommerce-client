@@ -1,12 +1,10 @@
-import { Category } from "@/types/category";
+import { api } from "@/lib/api";
+import { Category, CategoryResponse } from "@/types/category";
 import { Sale, SaleFilters } from "@/types/sale";
 
-const API_BASE = "http://localhost:3001/api";
-
 export async function fetchCategories(): Promise<Category[]> {
-  const response = await fetch(`${API_BASE}/getCategories`);
-  if (!response.ok) throw new Error("Erro ao buscar categorias");
-  return response.json();
+  const res = await api<CategoryResponse>("/category", { auth: true });
+  return res.data.data;
 }
 
 export async function fetchSalesByCategories(
@@ -18,7 +16,6 @@ export async function fetchSalesByCategories(
   if (filters.dataEnd) params.append("dataEnd", filters.dataEnd);
   params.append("categoriesId", `[${categoryIds.join(",")}]`);
 
-  const response = await fetch(`${API_BASE}/getSalesByCategories?${params.toString()}`);
-  if (!response.ok) throw new Error("Erro ao buscar vendas por categorias");
-  return response.json();
+  const res = await api<Sale[]>(`/sale/by-category?${params.toString()}`, { auth: true });
+  return res;
 }

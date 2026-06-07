@@ -1,152 +1,141 @@
+import { api } from "@/lib/api";
 import {
   Customer,
-  CustomerFilters,
   CreateCustomerPayload,
   PhoneFormData,
   AddressFormData,
   CardFormData,
+  CustomerResponse,
+  FindCustomer,
 } from "@/types/customer";
 
-const API_BASE = "http://localhost:3001/api";
+// ─── Customer ─────────────────────────────────────────────────────────────────
 
-export async function fetchCustomers(filters?: CustomerFilters): Promise<Customer[]> {
-  const hasFilters = filters && Object.keys(filters).length > 0;
-  const url = hasFilters
-    ? `${API_BASE}/getUsersFiltres?${new URLSearchParams(filters as Record<string, string>).toString()}`
-    : `${API_BASE}/getUsers`;
+export async function fetchCustomers(): Promise<Customer[]> {
+  const res = await api<CustomerResponse>("/user", { auth: true });
 
-  const response = await fetch(url);
-  if (!response.ok) throw new Error("Erro ao buscar clientes");
-  return response.json();
+  return res.data;
 }
 
 export async function fetchCustomerById(customerId: number): Promise<
-  Customer & { genero: string; dataNascimento: string; cpf: string; email: string }
+  Customer
 > {
-  const response = await fetch(`${API_BASE}/getUser?userId=${customerId}`);
-  if (!response.ok) throw new Error("Usuário não encontrado");
-  return response.json();
+  const res = await api<FindCustomer>(
+    `/user/${customerId}`,
+    { auth: true }
+  );
+  return res.data;
 }
 
 export async function deleteCustomer(customerId: number): Promise<void> {
-  const response = await fetch(`${API_BASE}/deleteUser?userId=${customerId}`, {
+  await api<void>(`/user/${customerId}`, {
     method: "DELETE",
+    auth: true,
   });
-  if (!response.ok) throw new Error("Erro ao excluir cliente");
 }
 
 export async function updateCustomerStatus(customerId: number, status: boolean): Promise<void> {
-  const response = await fetch(`${API_BASE}/updateStatusUser`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ userId: customerId, status }),
+  await api<void>(`/user/active`, {
+    method: "PATCH",
+    auth: true,
+    body: JSON.stringify({ userId: customerId, active: status }),
   });
-  if (!response.ok) throw new Error("Erro ao atualizar status");
 }
 
 export async function createCustomer(payload: CreateCustomerPayload): Promise<{ id: number }> {
-  const response = await fetch(`${API_BASE}/createUser`, {
+  const res = await api<{ id: number }>("/user", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    auth: true,
     body: JSON.stringify(payload),
   });
-  if (!response.ok) throw new Error(await response.text());
-  return response.json();
+  return res;
 }
 
-export async function updateCustomer(
+//"Mahas arruma aqui o balho pro master atualizar usuario"
+export async function updateCustomer( 
   customerId: number,
   payload: Omit<CreateCustomerPayload, "senha" | "confirmarSenha">
 ): Promise<void> {
-  const response = await fetch(`${API_BASE}/updateUser`, {
+  await api<void>(`/user/${customerId}`, {
     method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ userId: customerId, ...payload }),
-  });
-  if (!response.ok) throw new Error(await response.text());
-}
-
-export async function createPhone(
-  payload: PhoneFormData & { userId: number }
-): Promise<void> {
-  const response = await fetch(`${API_BASE}/createTelefone`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
+    auth: true,
     body: JSON.stringify(payload),
   });
-  if (!response.ok) throw new Error("Erro ao salvar telefone");
 }
 
-export async function createAddress(
-  payload: AddressFormData & { userId: number }
-): Promise<void> {
-  const response = await fetch(`${API_BASE}/createEndereco`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
-  });
-  if (!response.ok) throw new Error("Erro ao salvar endereço");
-}
-
-export async function createCard(
-  payload: CardFormData & { userId: number }
-): Promise<void> {
-  const response = await fetch(`${API_BASE}/createCartao`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
-  });
-  if (!response.ok) throw new Error("Erro ao salvar cartão");
-}
-
+//"Mahas arruma aqui, tota para atualizar a senha de um usuario"
 export async function updateCustomerPassword(payload: {
   userId: number;
   senhaAtual: string;
   novaSenha: string;
   confirmarNovaSenha: string;
 }): Promise<void> {
-  const response = await fetch(`${API_BASE}/updateSenha`, {
+  const { userId, ...body } = payload;
+  await api<void>(`/password`, {
     method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
+    auth: true,
+    body: JSON.stringify(body),
   });
-  if (!response.ok) throw new Error(await response.text());
 }
+
+// ─── Address ──────────────────────────────────────────────────────────────────
 
 export type AddressItem = {
   id: number;
   nome: string;
 };
 
-export async function fetchAddresses(userId: number): Promise<AddressItem[]> {
-  const response = await fetch(`${API_BASE}/getEnderecos?userId=${userId}`);
-  if (!response.ok) throw new Error("Erro ao buscar endereços");
-  return response.json();
-}
-
 export type AddressDetail = AddressFormData & {
   id: number;
   userId: number;
 };
 
+export async function fetchAddresses(userId: number): Promise<AddressItem[]> {
+  const res = await api<AddressItem[]>(`/user/${userId}/address`, { auth: true });
+  return res;
+}
+
 export async function fetchAddressById(addressId: number): Promise<AddressDetail> {
-  const response = await fetch(`${API_BASE}/getEndereco?enderecoId=${addressId}`);
-  if (!response.ok) throw new Error("Erro ao buscar endereço");
-  return response.json();
+  const res = await api<AddressDetail>(`/address/${addressId}`, { auth: true });
+  return res;
+}
+
+export async function createAddress(
+  payload: AddressFormData & { userId: number }
+): Promise<void> {
+  const { userId, ...body } = payload;
+  await api<void>(`/user/${userId}/address`, {
+    method: "POST",
+    auth: true,
+    body: JSON.stringify(body),
+  });
 }
 
 export async function updateAddress(
   addressId: number,
   payload: AddressFormData
 ): Promise<void> {
-  const response = await fetch(`${API_BASE}/updateEndereco`, {
+  await api<void>(`/address/${addressId}`, {
     method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ enderecoId: addressId, ...payload }),
+    auth: true,
+    body: JSON.stringify(payload),
   });
-  if (!response.ok) throw new Error(await response.text());
 }
 
+// ─── Phone ────────────────────────────────────────────────────────────────────
+
+export async function createPhone(
+  payload: PhoneFormData & { userId: number }
+): Promise<void> {
+  const { userId, ...body } = payload;
+  await api<void>(`/user/${userId}/phone`, {
+    method: "POST",
+    auth: true,
+    body: JSON.stringify(body),
+  });
+}
+
+// ─── Card ─────────────────────────────────────────────────────────────────────
 
 export type CardItem = {
   id: number;
@@ -155,16 +144,24 @@ export type CardItem = {
 };
 
 export async function fetchCards(userId: number): Promise<CardItem[]> {
-  const response = await fetch(`${API_BASE}/getCartoes?userId=${userId}`);
-  if (!response.ok) throw new Error("Erro ao buscar cartões");
-  return response.json();
+  const res = await api<CardItem[]>(`/user/${userId}/card`, { auth: true });
+  return res;
+}
+
+export async function createCard(
+  payload: CardFormData & { userId: number }
+): Promise<void> {
+  const { userId, ...body } = payload;
+  await api<void>(`/user/${userId}/card`, {
+    method: "POST",
+    auth: true,
+    body: JSON.stringify(body),
+  });
 }
 
 export async function updatePreferredCard(cardId: number): Promise<void> {
-  const response = await fetch(`${API_BASE}/updateCartaoPreferencial`, {
+  await api<void>(`/card/${cardId}/preferred`, {
     method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ cartaoId: cardId, preferencial: true }),
+    auth: true,
   });
-  if (!response.ok) throw new Error("Erro ao atualizar cartão preferencial");
 }
