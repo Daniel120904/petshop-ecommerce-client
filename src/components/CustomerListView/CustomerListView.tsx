@@ -12,13 +12,6 @@ export function CustomerListView() {
 
   return (
     <main className={styles.container}>
-      <div className={styles.toolbar}>
-        <SearchBar onFiltersChange={setFilters} />
-        <Link href="/admin/customer/new" className={styles.newButton}>
-          + Novo Cliente
-        </Link>
-      </div>
-
       {loading && (
         <div className={styles.feedback}>
           <span className={styles.spinner} />

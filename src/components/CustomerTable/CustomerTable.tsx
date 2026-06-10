@@ -33,36 +33,18 @@ export function CustomerTable({ customers, onDelete, onToggleStatus }: CustomerT
         <tbody>
           {customers.map((customer) => (
             <tr key={customer.id} className={styles.row}>
-              <td className={styles.tdName}>{customer.nome}</td>
+              <td className={styles.tdName}>{customer.name}</td>
               <td className={styles.tdActions}>
                 <div className={styles.actions}>
                   <Link
-                    href={`/admin/customer/${customer.id}/edit`}
-                    className={`${styles.actionBtn} ${styles.warning}`}
-                  >
-                    Editar
-                  </Link>
-                  <Link
-                    href={`/admin/customer/${customer.id}/password`}
-                    className={`${styles.actionBtn} ${styles.secondary}`}
-                  >
-                    Alterar Senha
-                  </Link>
-                  <Link
-                    href={`/admin/customer/${customer.id}/addresses`}
+                    href={`/admin/customer/${customer.id}/data`}
                     className={`${styles.actionBtn} ${styles.primary}`}
                   >
-                    Endereços
-                  </Link>
-                  <Link
-                    href={`/admin/customer/${customer.id}/cards`}
-                    className={`${styles.actionBtn} ${styles.info}`}
-                  >
-                    Cartões
+                    Informações
                   </Link>
                   <Link
                     href={`/admin/customer/${customer.id}/transactions`}
-                    className={`${styles.actionBtn} ${styles.dark}`}
+                    className={`${styles.actionBtn} ${styles.secondary}`}
                   >
                     Transações
                   </Link>
@@ -78,8 +60,8 @@ export function CustomerTable({ customers, onDelete, onToggleStatus }: CustomerT
                 <label className={styles.toggle}>
                   <input
                     type="checkbox"
-                    checked={customer.status}
-                    onChange={() => onToggleStatus(customer.id, customer.status)}
+                    checked={customer.active}
+                    onChange={() => onToggleStatus(customer.id, customer.active)}
                     className={styles.toggleInput}
                   />
                   <span className={styles.toggleSlider} />

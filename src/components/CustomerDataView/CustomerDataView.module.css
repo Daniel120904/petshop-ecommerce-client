@@ -1,0 +1,255 @@
+.page {
+  min-height: 100vh;
+  padding: 2rem 1.5rem;
+  background: #f5f6fa;
+}
+
+/* Top bar */
+.topBar {
+  margin-bottom: 1.5rem;
+}
+
+.backBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 0.45rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #444;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.backBtn:hover {
+  background: #f0f0f0;
+  border-color: #c0c0c0;
+}
+
+.backArrow {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+/* Card */
+.card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+  padding: 2rem;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+/* Header */
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #4f6ef7;
+  color: #fff;
+  font-size: 1.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.headerInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.customerName {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0;
+}
+
+.badges {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.badge {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+}
+
+.badgeActive {
+  background: #e6f9f0;
+  color: #1a9655;
+}
+
+.badgeInactive {
+  background: #f2f2f2;
+  color: #888;
+}
+
+.badgeBlocked {
+  background: #fdecea;
+  color: #d32f2f;
+}
+
+/* Divider */
+.divider {
+  border: none;
+  border-top: 1px solid #f0f0f0;
+  margin: 1.5rem 0;
+}
+
+/* Sections */
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sectionTitle {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #9098b1;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.sectionIcon {
+  font-size: 0.95rem;
+}
+
+/* Grid for personal info */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem 1.5rem;
+}
+
+@media (max-width: 500px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.infoField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.infoLabel {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #b0b8cc;
+}
+
+.infoValue {
+  font-size: 0.95rem;
+  color: #1a1a2e;
+  font-weight: 500;
+}
+
+/* Phone list */
+.listCards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.listCard {
+  background: #f5f6fa;
+  border: 1px solid #e8eaf0;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  color: #333;
+  font-weight: 500;
+}
+
+/* Address cards */
+.addressList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.addressCard {
+  background: #f8f9fc;
+  border: 1px solid #eaecf2;
+  border-radius: 10px;
+  padding: 0.9rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.addressNickname {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #4f6ef7;
+  margin-bottom: 0.1rem;
+}
+
+.addressLine {
+  font-size: 0.9rem;
+  color: #444;
+}
+
+/* Feedback */
+.feedback {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #666;
+  font-size: 0.95rem;
+  padding: 2rem;
+  justify-content: center;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #e0e0e0;
+  border-top-color: #4f6ef7;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.errorBox {
+  background: #fdecea;
+  color: #c62828;
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  font-size: 0.9rem;
+  max-width: 760px;
+  margin: 0 auto;
+}

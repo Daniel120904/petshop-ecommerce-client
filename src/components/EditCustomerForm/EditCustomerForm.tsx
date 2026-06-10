@@ -68,13 +68,6 @@ export function EditCustomerForm({ customerId }: EditCustomerFormProps) {
             onChange={(v) => updateField("cpf", v)}
             placeholder="000.000.000-00"
           />
-          <FormField
-            label="E-mail"
-            required
-            type="email"
-            value={formData.email}
-            onChange={(v) => updateField("email", v)}
-          />
         </div>
       </FormSection>
 

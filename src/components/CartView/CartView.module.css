@@ -1,0 +1,165 @@
+.container {
+  width: 90%;
+  max-width: 860px;
+  margin: 36px auto 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+/* List */
+.listWrapper {
+  background: #fff;
+  border-radius: 14px;
+  border: 1.5px solid #e2e8f0;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+}
+
+.listHeader {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  background: #f8fafc;
+  border-bottom: 2px solid #e2e8f0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #64748b;
+}
+
+.headerQty {
+  margin-left: auto;
+  margin-right: 48px;
+}
+
+.headerTotal {
+  min-width: 90px;
+  text-align: right;
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+}
+
+/* Summary */
+.summary {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.totalRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.totalLabel {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+.totalValue {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #1e293b;
+}
+
+.checkoutButton {
+  background: #16a34a;
+  color: #fff;
+  padding: 13px 32px;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.15s;
+  box-shadow: 0 2px 8px rgba(22, 163, 74, 0.25);
+}
+
+.checkoutButton:hover {
+  background: #15803d;
+  transform: translateY(-1px);
+}
+
+/* Feedback */
+.feedback {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: center;
+  padding: 80px;
+  color: #64748b;
+  font-size: 0.95rem;
+}
+
+.spinner {
+  width: 22px;
+  height: 22px;
+  border: 3px solid #e2e8f0;
+  border-top-color: #0d6efd;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.errorBanner {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  padding: 14px 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  color: #94a3b8;
+  gap: 14px;
+}
+
+.emptyIcon {
+  font-size: 3rem;
+}
+
+.empty p {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.shopLink {
+  background: #0d6efd;
+  color: #fff;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.shopLink:hover {
+  background: #0b5ed7;
+}
