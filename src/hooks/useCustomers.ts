@@ -18,9 +18,7 @@ export function useCustomers() {
     setLoading(true);
     setError(null);
     try {
-      const data = await fetchCustomers(
-        Object.keys(filters).length > 0 ? filters : undefined
-      );
+      const data = await fetchCustomers();
       setCustomers(data);
     } catch {
       setError("Erro ao carregar clientes. Tente novamente.");
@@ -46,13 +44,13 @@ export function useCustomers() {
   const handleToggleStatus = async (customerId: number, currentStatus: boolean) => {
     const newStatus = !currentStatus;
     setCustomers((prev) =>
-      prev.map((c) => (c.id === customerId ? { ...c, status: newStatus } : c))
+      prev.map((c) => (c.id === customerId ? { ...c, active: newStatus } : c))
     );
     try {
       await updateCustomerStatus(customerId, newStatus);
     } catch {
       setCustomers((prev) =>
-        prev.map((c) => (c.id === customerId ? { ...c, status: currentStatus } : c))
+        prev.map((c) => (c.id === customerId ? { ...c, active: currentStatus } : c))
       );
       alert("Erro ao atualizar status.");
     }

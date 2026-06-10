@@ -9,7 +9,6 @@ export type EditCustomerFormData = {
   genero: string;
   dataNascimento: string;
   cpf: string;
-  email: string;
 };
 
 export function useEditCustomer(customerId: number) {
@@ -20,7 +19,6 @@ export function useEditCustomer(customerId: number) {
     genero: "",
     dataNascimento: "",
     cpf: "",
-    email: "",
   });
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -31,13 +29,12 @@ export function useEditCustomer(customerId: number) {
       try {
         const user = await fetchCustomerById(customerId);
         setFormData({
-          nome: user.nome ?? "",
-          genero: user.genero ?? "",
-          dataNascimento: user.dataNascimento
-            ? user.dataNascimento.split("T")[0]
+          nome: user.name ?? "",
+          genero: user.genderId == 1 ? "Masculino" : user.genderId == 2 ? "Feminino" : "Outro",
+          dataNascimento: user.birthday
+            ? user.birthday.split("T")[0]
             : "",
           cpf: user.cpf ?? "",
-          email: user.email ?? "",
         });
       } catch {
         setError("Erro ao buscar dados do cliente.");
