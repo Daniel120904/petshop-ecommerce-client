@@ -3,7 +3,7 @@ import { SalesChartView } from "@/components/SalesChartView/SalesChartView";
 
 const SALES_NAV = [
   { label: "Histórico", href: "/admin/sales/history" },
-  { label: "Gráfico",   href: "/admin/sales/graphic" },
+  { label: "Gráfico", href: "/admin/sales/graphic" },
 ];
 
 export default function SalesGraphicPage() {
