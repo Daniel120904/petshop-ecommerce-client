@@ -8,8 +8,7 @@ import { SaleActionButtons } from "@/components/SaleActionButtons/SaleActionButt
 import { SaleFilters } from "@/types/sale";
 
 function formatDate(iso: string): string {
-  const date = new Date(iso);
-  return date.toLocaleDateString("pt-BR");
+  return new Date(iso).toLocaleDateString("pt-BR");
 }
 
 export function SalesListView() {
@@ -84,7 +83,9 @@ export function SalesListView() {
               sales.map((sale) => (
                 <tr key={sale.id} className={styles.row}>
                   <td className={styles.tdId}>#{sale.id}</td>
-                  <td className={styles.tdClient}>{sale.user.nome}</td>
+                  <td className={styles.tdClient}>
+                    {sale.user?.nome ?? `Usuário #${sale.userId}`}
+                  </td>
                   <td className={styles.tdDate}>{formatDate(sale.createdAt)}</td>
                   <td className={styles.tdStatus}>
                     <SaleStatusBadge status={sale.status} />

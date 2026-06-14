@@ -1,5 +1,6 @@
 import { api } from "@/lib/api";
-import { Sale, SaleFilters, SaleStatus } from "@/types/sale";
+import { Sale, SaleFilters, SaleStatus, SaleListResponse } from "@/types/sale";
+import { CreateSalePayload } from "@/types/user";
 
 export async function fetchSales(filters?: SaleFilters): Promise<Sale[]> {
   const params = new URLSearchParams();
@@ -9,8 +10,8 @@ export async function fetchSales(filters?: SaleFilters): Promise<Sale[]> {
   const query = params.toString();
   const endpoint = `/sale${query ? `?${query}` : ""}`;
 
-  const res = await api<Sale[]>(endpoint, { auth: true });
-  return res;
+  const res = await api<SaleListResponse>(endpoint, { auth: true });
+  return res.data.data;
 }
 
 export async function updateSaleStatus(
@@ -24,9 +25,7 @@ export async function updateSaleStatus(
   });
 }
 
-export async function createSale(
-  payload: import("@/types/user").CreateSalePayload
-): Promise<void> {
+export async function createSale(payload: CreateSalePayload): Promise<void> {
   await api<void>("/sale", {
     method: "POST",
     auth: true,
