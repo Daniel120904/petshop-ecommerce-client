@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import {
   LineChart,
   Line,
@@ -13,84 +12,21 @@ import {
 } from "recharts";
 import styles from "./SalesChartView.module.css";
 import { useSalesChart } from "@/hooks/useSalesChart";
-import { SaleFilters, CHART_COLORS } from "@/types/sale";
+import { CHART_COLORS } from "@/types/sale";
 
 export function SalesChartView() {
   const {
-    categories,
     selectedCategoryIds,
     generalData,
     categoryData,
     selectedCategories,
     loading,
     error,
-    toggleCategory,
-    handleFilterSubmit,
   } = useSalesChart();
-
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-
-  const onSubmitFilter = (e: React.FormEvent) => {
-    e.preventDefault();
-    const f: SaleFilters = {};
-    if (startDate) f.dataStart = startDate;
-    if (endDate) f.dataEnd = endDate;
-    handleFilterSubmit(f);
-  };
 
   return (
     <main className={styles.container}>
       <h3 className={styles.pageTitle}>Histórico de Vendas</h3>
-
-      <div className={styles.filterCard}>
-        <form className={styles.filterForm} onSubmit={onSubmitFilter}>
-          <div className={styles.filterDates}>
-            <div className={styles.filterField}>
-              <label className={styles.filterLabel}>Data Início</label>
-              <input
-                type="date"
-                className={styles.filterInput}
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
-              />
-            </div>
-            <div className={styles.filterField}>
-              <label className={styles.filterLabel}>Data Fim</label>
-              <input
-                type="date"
-                className={styles.filterInput}
-                value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
-              />
-            </div>
-            <button type="submit" className={styles.filterButton}>
-              Filtrar
-            </button>
-          </div>
-
-          {categories.length > 0 && (
-            <div className={styles.categorySection}>
-              <span className={styles.categoryLabel}>
-                Categorias (selecione uma ou mais)
-              </span>
-              <div className={styles.checkboxGroup}>
-                {categories.map((cat) => (
-                  <label key={cat.id} className={styles.checkboxLabel}>
-                    <input
-                      type="checkbox"
-                      className={styles.checkbox}
-                      checked={selectedCategoryIds.includes(cat.id)}
-                      onChange={() => toggleCategory(cat.id)}
-                    />
-                    {cat.name}
-                  </label>
-                ))}
-              </div>
-            </div>
-          )}
-        </form>
-      </div>
 
       {error && <div className={styles.errorBanner}>{error}</div>}
 

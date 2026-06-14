@@ -1,57 +1,20 @@
 "use client";
 
-import { useState } from "react";
 import styles from "./SalesListView.module.css";
 import { useSales } from "@/hooks/useSales";
 import { SaleStatusBadge } from "@/components/SaleStatusBadge/SaleStatusBadge";
 import { SaleActionButtons } from "@/components/SaleActionButtons/SaleActionButtons";
-import { SaleFilters } from "@/types/sale";
 
 function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString("pt-BR");
 }
 
 export function SalesListView() {
-  const { sales, loading, error, handleUpdateStatus, handleFilterSubmit } =
+  const { sales, loading, error, handleUpdateStatus } =
     useSales();
-
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-
-  const onSubmitFilter = (e: React.FormEvent) => {
-    e.preventDefault();
-    const filters: SaleFilters = {};
-    if (startDate) filters.dataStart = startDate;
-    if (endDate) filters.dataEnd = endDate;
-    handleFilterSubmit(filters);
-  };
 
   return (
     <main className={styles.container}>
-      <form className={styles.filterForm} onSubmit={onSubmitFilter}>
-        <div className={styles.filterField}>
-          <label className={styles.filterLabel}>Data Início</label>
-          <input
-            type="date"
-            className={styles.filterInput}
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-          />
-        </div>
-        <div className={styles.filterField}>
-          <label className={styles.filterLabel}>Data Fim</label>
-          <input
-            type="date"
-            className={styles.filterInput}
-            value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
-          />
-        </div>
-        <button type="submit" className={styles.filterButton}>
-          Filtrar
-        </button>
-      </form>
-
       {error && <div className={styles.errorBanner}>{error}</div>}
 
       <div className={styles.tableWrapper}>

@@ -41,13 +41,6 @@ function groupSalesByCategoryAndDate(
     const dateKey = sale.createdAt.split("T")[0];
     const categoriesInSale = new Set<string>();
 
-    sale.items?.forEach((item) => {
-      const catName = item.product.category.name;
-      if (selectedCategories.find((c) => c.name === catName)) {
-        categoriesInSale.add(catName);
-      }
-    });
-
     categoriesInSale.forEach((catName) => {
       counts[catName][dateKey] = (counts[catName][dateKey] ?? 0) + 1;
     });
@@ -86,6 +79,10 @@ export function useSalesChart() {
       const sales = await fetchSales(
         Object.keys(filters).length > 0 ? filters : undefined
       );
+
+      console.log("sales", sales);
+      console.log("grouped", groupSalesByDate(sales));
+
       setGeneralData(groupSalesByDate(sales));
 
       if (selectedCategoryIds.length > 0) {
