@@ -16,17 +16,15 @@ export type SaleItem = {
 };
 
 export type SaleResponse = {
-  data: {
-      data: Sale[];
-      meta: {
-        total: number;
-        page: number;
-        pageSize: number;
-        totalPages: number;
-        hasNext: boolean;
-        hasPrev: boolean;
-      };
-    };
+  data: Sale[];
+  meta: {
+    total: number;
+    page: number;
+    pageSize: number;
+    totalPages: number;
+    hasNext: boolean;
+    hasPrev: boolean;
+  };
 };
 
 
@@ -34,7 +32,7 @@ export type Sale = {
   id: number;
   status: SaleStatus;
   createdAt: string;
-  user: { nome: string };
+  user: { name: string };
   items?: SaleItem[];
 };
 

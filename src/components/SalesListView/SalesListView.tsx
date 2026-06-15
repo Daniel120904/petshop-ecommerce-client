@@ -27,6 +27,9 @@ export function SalesListView() {
     handleFilterSubmit(filters);
   };
 
+  console.log("sales:", sales);
+  console.log("isArray:", Array.isArray(sales));
+
   return (
     <main className={styles.container}>
       <form className={styles.filterForm} onSubmit={onSubmitFilter}>
@@ -84,7 +87,7 @@ export function SalesListView() {
               sales.map((sale) => (
                 <tr key={sale.id} className={styles.row}>
                   <td className={styles.tdId}>#{sale.id}</td>
-                  <td className={styles.tdClient}>{sale.user.nome}</td>
+                  <td className={styles.tdClient}>{sale.user.name}</td>
                   <td className={styles.tdDate}>{formatDate(sale.createdAt)}</td>
                   <td className={styles.tdStatus}>
                     <SaleStatusBadge status={sale.status} />

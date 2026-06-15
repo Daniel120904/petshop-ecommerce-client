@@ -1,7 +1,8 @@
 import { api } from "@/lib/api";
-import { Sale, SaleFilters, SaleStatus } from "@/types/sale";
+import { SaleFilters, SaleStatus } from "@/types/sale";
+import { SaleResponse } from "../types/sale"
 
-export async function fetchSales(filters?: SaleFilters): Promise<Sale[]> {
+export async function fetchSales(filters?: SaleFilters): Promise<SaleResponse> {
   const params = new URLSearchParams();
   if (filters?.dataStart) params.append("dataStart", filters.dataStart);
   if (filters?.dataEnd) params.append("dataEnd", filters.dataEnd);
@@ -9,8 +10,11 @@ export async function fetchSales(filters?: SaleFilters): Promise<Sale[]> {
   const query = params.toString();
   const endpoint = `/sale${query ? `?${query}` : ""}`;
 
-  const res = await api<Sale[]>(endpoint, { auth: true });
-  return res;
+  const res = await api<{ data: SaleResponse}>(endpoint, {
+    auth: true,
+  });
+
+  return res.data;
 }
 
 export async function updateSaleStatus(
