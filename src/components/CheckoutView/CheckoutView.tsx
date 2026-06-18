@@ -15,6 +15,7 @@ export function CheckoutView() {
     submitting,
     error,
     subtotal,
+    discount,
     total,
     shipping,
     selectedAddressId,
@@ -23,6 +24,13 @@ export function CheckoutView() {
     setPaymentType,
     selectedCardId,
     setSelectedCardId,
+    couponCode,
+    setCouponCode,
+    appliedCoupons,
+    couponLoading,
+    couponError,
+    handleApplyCoupon,
+    handleRemoveCoupon,
     handleSubmit,
   } = useCheckout();
 
@@ -95,10 +103,70 @@ export function CheckoutView() {
                 <span>Frete</span>
                 <span>R$ {shipping.toFixed(2)}</span>
               </div>
+              {discount > 0 && (
+                <div className={`${styles.totalRow} ${styles.discountRow}`}>
+                  <span>Desconto</span>
+                  <span>- R$ {discount.toFixed(2)}</span>
+                </div>
+              )}
               <div className={`${styles.totalRow} ${styles.grandTotal}`}>
                 <span>Total</span>
                 <span>R$ {total.toFixed(2)}</span>
               </div>
+            </div>
+          </section>
+
+          {/* Coupon */}
+          <section className={styles.card}>
+            <h4 className={styles.cardTitle}>Cupom de Desconto</h4>
+            <div className={styles.couponBody}>
+              <div className={styles.couponInputRow}>
+                <input
+                  type="text"
+                  className={styles.couponInput}
+                  placeholder="Digite o código do cupom"
+                  value={couponCode}
+                  onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                  onKeyDown={(e) => e.key === "Enter" && handleApplyCoupon()}
+                />
+                <button
+                  className={styles.couponButton}
+                  onClick={handleApplyCoupon}
+                  disabled={couponLoading}
+                  type="button"
+                >
+                  {couponLoading ? "..." : "Aplicar"}
+                </button>
+              </div>
+
+              {couponError && (
+                <p className={styles.couponError}>{couponError}</p>
+              )}
+
+              {appliedCoupons.length > 0 && (
+                <ul className={styles.couponList}>
+                  {appliedCoupons.map((coupon) => (
+                    <li key={coupon.code} className={styles.couponTag}>
+                      <div className={styles.couponInfo}>
+                        <span className={styles.couponCode}>{coupon.code}</span>
+                        <span className={styles.couponDesc}>
+                          {coupon.type === "percent"
+                            ? `${coupon.discount}% de desconto`
+                            : `R$ ${coupon.discount.toFixed(2)} de desconto`}
+                        </span>
+                      </div>
+                      <button
+                        className={styles.couponRemove}
+                        onClick={() => handleRemoveCoupon(coupon.code)}
+                        type="button"
+                        aria-label="Remover cupom"
+                      >
+                        ×
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           </section>
         </div>
@@ -149,7 +217,6 @@ export function CheckoutView() {
           <section className={styles.card}>
             <h4 className={styles.cardTitle}>Forma de Pagamento</h4>
 
-            {/* Payment type toggle */}
             <div className={styles.paymentToggle}>
               {(["card", "pix"] as PaymentType[]).map((type) => (
                 <button
@@ -160,7 +227,7 @@ export function CheckoutView() {
                   onClick={() => setPaymentType(type)}
                   type="button"
                 >
-                  {type === "card" ? "💳 Cartão" : "📱 Pix"}
+                  {type === "card" ? "Cartão" : "Pix"}
                 </button>
               ))}
             </div>
@@ -209,7 +276,6 @@ export function CheckoutView() {
             )}
           </section>
 
-          {/* Confirm button */}
           <button
             className={styles.confirmButton}
             onClick={handleSubmit}

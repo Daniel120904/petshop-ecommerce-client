@@ -290,3 +290,128 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ─── Coupon ─────────────────────────────────────────────────────────────── */
+
+.couponBody {
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.couponInputRow {
+  display: flex;
+  gap: 8px;
+}
+
+.couponInput {
+  flex: 1;
+  padding: 10px 13px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: #1e293b;
+  outline: none;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.couponInput:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.1);
+}
+
+.couponInput::placeholder {
+  font-weight: 400;
+  letter-spacing: 0;
+  color: #b0bec5;
+}
+
+.couponButton {
+  padding: 10px 18px;
+  background: #0d6efd;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+
+.couponButton:hover:not(:disabled) {
+  background: #0b5ed7;
+}
+
+.couponButton:disabled {
+  background: #cbd5e1;
+  cursor: not-allowed;
+}
+
+.couponError {
+  font-size: 0.82rem;
+  color: #b91c1c;
+  margin: 0;
+}
+
+.couponList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.couponTag {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f0fdf4;
+  border: 1.5px solid #bbf7d0;
+  border-radius: 8px;
+  padding: 10px 14px;
+}
+
+.couponInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.couponCode {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #166534;
+  letter-spacing: 0.06em;
+}
+
+.couponDesc {
+  font-size: 0.78rem;
+  color: #16a34a;
+}
+
+.couponRemove {
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  color: #94a3b8;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 4px;
+  transition: color 0.15s;
+}
+
+.couponRemove:hover {
+  color: #b91c1c;
+}
+
+/* ─── Discount row in totals ─────────────────────────────────────────────── */
+
+.discountRow {
+  color: #16a34a;
+  font-weight: 600;
+}
