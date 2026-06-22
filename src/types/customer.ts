@@ -110,6 +110,7 @@ export type PhoneFormData = {
 
 export type CreateCustomerPayload = {
   nome: string;
+  email: string;
   genero: string;
   dataNascimento: string;
   cpf: string;

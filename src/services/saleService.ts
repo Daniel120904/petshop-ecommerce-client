@@ -2,7 +2,7 @@ import { api } from "@/lib/api";
 import { Sale, SaleFilters, SaleStatus, SaleListResponse } from "@/types/sale";
 import { CreateSalePayload } from "@/types/user";
 
-export async function fetchSales(filters?: SaleFilters): Promise<Sale[]> {
+export async function fetchSales(filters?: SaleFilters): Promise<SaleResponse> {
   const params = new URLSearchParams();
   if (filters?.dataStart) params.append("dataStart", filters.dataStart);
   if (filters?.dataEnd) params.append("dataEnd", filters.dataEnd);

@@ -17,7 +17,7 @@ export function useSales() {
       const data = await fetchSales(
         Object.keys(filters).length > 0 ? filters : undefined
       );
-      setSales(data);
+      setSales(data.data);
     } catch {
       setError("Erro ao carregar vendas. Tente novamente.");
     } finally {

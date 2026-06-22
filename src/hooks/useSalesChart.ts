@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { Category } from "@/types/category";
-import { Sale, SaleFilters, ChartDataPoint } from "@/types/sale";
+import { Sale, SaleFilters, ChartDataPoint, SaleResponse } from "@/types/sale";
 import { fetchCategories, fetchSalesByCategories } from "@/services/categoryService";
 import { fetchSales } from "@/services/saleService";
 
@@ -13,9 +13,9 @@ function formatDateLabel(iso: string): string {
   return `${day}/${month}`;
 }
 
-function groupSalesByDate(sales: Sale[]): ChartDataPoint[] {
+function groupSalesByDate(sales: SaleResponse): ChartDataPoint[] {
   const grouped: Record<string, number> = {};
-  sales.forEach((sale) => {
+  sales.data.forEach((sale) => {
     const key = sale.createdAt.split("T")[0];
     grouped[key] = (grouped[key] ?? 0) + 1;
   });

@@ -54,7 +54,9 @@ export async function createCustomer(payload: CreateCustomerPayload): Promise<{ 
 //"Mahas arruma aqui o balho pro master atualizar usuario"
 export async function updateCustomer( 
   customerId: number,
-  payload: Omit<CreateCustomerPayload, "senha" | "confirmarSenha">
+  payload: Partial<
+    Omit<CreateCustomerPayload, "senha" | "confirmarSenha">
+  >
 ): Promise<void> {
   await api<void>(`/user/${customerId}`, {
     method: "PUT",
