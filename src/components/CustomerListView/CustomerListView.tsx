@@ -1,13 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import styles from "./CustomerListView.module.css";
 import { useCustomers } from "@/hooks/useCustomers";
-import { SearchBar } from "@/components/SearchBar/SearchBar";
 import { CustomerTable } from "@/components/CustomerTable/CustomerTable";
 
 export function CustomerListView() {
-  const { customers, loading, error, setFilters, handleDelete, handleToggleStatus } =
+  const { customers, loading, error, handleDelete, handleToggleStatus } =
     useCustomers();
 
   return (
