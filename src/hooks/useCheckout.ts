@@ -5,12 +5,10 @@ import { useRouter } from "next/navigation";
 import { CartItem } from "@/types/cart";
 import { UserProfile, PaymentType } from "@/types/user";
 import { Coupon } from "@/types/coupon";
-import { fetchCartItems } from "@/services/productService";
+import { fetchCartItems, fetchFreight } from "@/services/productService";
 import { fetchMe } from "@/services/userService";
 import { createSale } from "@/services/saleService";
 import { checkCoupon } from "@/services/couponService";
-
-const SHIPPING = 20;
 
 export function useCheckout() {
   const router = useRouter();
@@ -25,12 +23,16 @@ export function useCheckout() {
   const [paymentType, setPaymentType] = useState<PaymentType>("card");
   const [selectedCardId, setSelectedCardId] = useState<number | null>(null);
 
+  const [shipping, setShipping] = useState<number>(0);
+  const [shippingLoading, setShippingLoading] = useState(false);
+
   // Coupons
   const [couponCode, setCouponCode] = useState("");
   const [appliedCoupons, setAppliedCoupons] = useState<Coupon[]>([]);
   const [couponLoading, setCouponLoading] = useState(false);
   const [couponError, setCouponError] = useState<string | null>(null);
 
+  // Load cart + profile
   useEffect(() => {
     async function load() {
       try {
@@ -53,6 +55,28 @@ export function useCheckout() {
     load();
   }, []);
 
+  // Fetch freight whenever selected address changes
+  useEffect(() => {
+    if (!selectedAddressId) {
+      setShipping(0);
+      return;
+    }
+
+    async function loadFreight() {
+      setShippingLoading(true);
+      try {
+        const value = await fetchFreight(selectedAddressId!);
+        setShipping(value);
+      } catch {
+        // Keep previous value on error — don't block checkout
+      } finally {
+        setShippingLoading(false);
+      }
+    }
+
+    loadFreight();
+  }, [selectedAddressId]);
+
   // ─── Price calculations ────────────────────────────────────────────────────
 
   const subtotal = cartItems.reduce((sum, item) => {
@@ -70,7 +94,7 @@ export function useCheckout() {
     return acc + coupon.discount;
   }, 0);
 
-  const total = Math.max(0, subtotal + SHIPPING - discount);
+  const total = Math.max(0, subtotal + shipping - discount);
 
   // ─── Coupon handlers ───────────────────────────────────────────────────────
 
@@ -161,7 +185,8 @@ export function useCheckout() {
     subtotal,
     discount,
     total,
-    shipping: SHIPPING,
+    shipping,
+    shippingLoading,
     selectedAddressId,
     setSelectedAddressId,
     paymentType,

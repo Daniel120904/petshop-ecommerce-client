@@ -47,3 +47,11 @@ export async function updateCartItemQuantity(
     body: JSON.stringify({ items: [{ productId, quantity }] }),
   });
 }
+
+export async function fetchFreight(addressId: number): Promise<number> {
+  const res = await api<{ data: { value: number } }>(`/freight/check?addressId=${addressId}`, {
+    method: "GET",
+    auth: true,
+  });
+  return res.data.value;
+}

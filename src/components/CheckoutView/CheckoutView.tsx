@@ -31,6 +31,7 @@ export function CheckoutView() {
     couponError,
     handleApplyCoupon,
     handleRemoveCoupon,
+    shippingLoading,
     handleSubmit,
   } = useCheckout();
 
@@ -101,7 +102,7 @@ export function CheckoutView() {
               </div>
               <div className={styles.totalRow}>
                 <span>Frete</span>
-                <span>R$ {shipping.toFixed(2)}</span>
+                <span>{shippingLoading ? "Calculando..." : `R$ ${shipping.toFixed(2)}`}</span>
               </div>
               {discount > 0 && (
                 <div className={`${styles.totalRow} ${styles.discountRow}`}>
@@ -227,7 +228,7 @@ export function CheckoutView() {
                   onClick={() => setPaymentType(type)}
                   type="button"
                 >
-                  {type === "card" ? "Cartão" : "Pix"}
+                  {type === "card" ? "💳 Cartão" : "📱 Pix"}
                 </button>
               ))}
             </div>
