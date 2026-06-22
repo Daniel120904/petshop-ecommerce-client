@@ -1,6 +1,6 @@
 import { api } from "@/lib/api";
-import { SaleFilters, SaleStatus } from "@/types/sale";
-import { SaleResponse } from "../types/sale"
+import { Sale, SaleFilters, SaleStatus, SaleListResponse } from "@/types/sale";
+import { CreateSalePayload } from "@/types/user";
 
 export async function fetchSales(filters?: SaleFilters): Promise<SaleResponse> {
   const params = new URLSearchParams();
@@ -10,27 +10,27 @@ export async function fetchSales(filters?: SaleFilters): Promise<SaleResponse> {
   const query = params.toString();
   const endpoint = `/sale${query ? `?${query}` : ""}`;
 
-  const res = await api<{ data: SaleResponse}>(endpoint, {
-    auth: true,
-  });
+  const res = await api<SaleListResponse>(endpoint, { auth: true });
+  return res.data.data;
+}
 
-  return res.data;
+export async function fetchSalesByUser(userId: number): Promise<Sale[]> {
+  const res = await api<SaleListResponse>(`/sale?userId=${userId}`, { auth: true });
+  return res.data.data;
 }
 
 export async function updateSaleStatus(
   saleId: number,
   status: SaleStatus
 ): Promise<void> {
-  await api<void>(`/sale/${saleId}/status`, {
-    method: "PUT",
+  await api<void>(`/sale`, {
+    method: "PATCH",
     auth: true,
-    body: JSON.stringify({ status }),
+    body: JSON.stringify({ status, saleId }),
   });
 }
 
-export async function createSale(
-  payload: import("@/types/user").CreateSalePayload
-): Promise<void> {
+export async function createSale(payload: CreateSalePayload): Promise<void> {
   await api<void>("/sale", {
     method: "POST",
     auth: true,

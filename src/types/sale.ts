@@ -1,39 +1,71 @@
 export type SaleStatus =
-  | "processamento"
-  | "aprovada"
-  | "reprovada"
-  | "transito"
-  | "emTroca"
-  | "trocaAutorizada"
-  | "entregue";
+  | "processing"
+  | "approved"
+  | "shipped"
+  | "exchange"
+  | "exchangeAuthorized"
+  | "delivered"
+  | "canceled";
+
+export type SaleProduct = {
+  id: number;
+  name: string;
+  price: number;
+  salePrice: number;
+  images: string[];
+  stock: number;
+  active: boolean;
+  isDelete: boolean;
+  createdAt: string;
+  updatedAt: string;
+};
 
 export type SaleItem = {
-  product: {
-    category: {
-      name: string;
-    };
-  };
+  quantity: number;
+  price: number;
+  saleId: number;
+  productId: number;
+  product: SaleProduct;
 };
 
-export type SaleResponse = {
-  data: Sale[];
-  meta: {
-    total: number;
-    page: number;
-    pageSize: number;
-    totalPages: number;
-    hasNext: boolean;
-    hasPrev: boolean;
-  };
+export type SalePayment = {
+  id: number;
+  saleId: number;
+  type: "card" | "pix";
+  status: string;
+  cardId: number | null;
+  amount: number;
 };
-
 
 export type Sale = {
   id: number;
+  finalPrice: number;
+  totalPrice: number;
   status: SaleStatus;
   createdAt: string;
-  user: { name: string };
-  items?: SaleItem[];
+  updatedAt: string;
+  cancelReason: string | null;
+  userId: number;
+  addressId: number;
+  items: SaleItem[];
+  payment: SalePayment;
+  user?: { nome: string };
+};
+
+export type SaleMeta = {
+  total: number;
+  page: number;
+  pageSize: number;
+  totalPages: number;
+  hasNext: boolean;
+  hasPrev: boolean;
+};
+
+export type SaleListResponse = {
+  data: {
+    data: Sale[];
+    meta: SaleMeta;
+  };
 };
 
 export type SaleFilters = {
@@ -48,13 +80,13 @@ export type StatusConfig = {
 };
 
 export const STATUS_CONFIG: Record<SaleStatus, StatusConfig> = {
-  processamento: { label: "Em Processamento", color: "#92400e", bg: "#fef3c7" },
-  aprovada: { label: "Aprovada", color: "#0369a1", bg: "#e0f2fe" },
-  reprovada: { label: "Reprovada", color: "#b91c1c", bg: "#fee2e2" },
-  transito: { label: "Em Trânsito", color: "#374151", bg: "#f1f5f9" },
-  emTroca: { label: "Em Troca", color: "#b91c1c", bg: "#fee2e2" },
-  trocaAutorizada: { label: "Troca Autorizada", color: "#166534", bg: "#dcfce7" },
-  entregue: { label: "Entregue", color: "#166534", bg: "#dcfce7" },
+  processing:         { label: "Em Processamento", color: "#92400e", bg: "#fef3c7" },
+  approved:           { label: "Aprovada",          color: "#0369a1", bg: "#e0f2fe" },
+  shipped:            { label: "Em Trânsito",       color: "#374151", bg: "#f1f5f9" },
+  exchange:           { label: "Em Troca",          color: "#b91c1c", bg: "#fee2e2" },
+  exchangeAuthorized: { label: "Troca Autorizada",  color: "#166534", bg: "#dcfce7" },
+  delivered:          { label: "Entregue",          color: "#166534", bg: "#dcfce7" },
+  canceled:           { label: "Cancelada",         color: "#6b7280", bg: "#f1f5f9" },
 };
 
 export type StatusAction = {
@@ -64,18 +96,18 @@ export type StatusAction = {
 };
 
 export const STATUS_ACTIONS: Partial<Record<SaleStatus, StatusAction[]>> = {
-  processamento: [
-    { label: "Aprovar Pagamento", nextStatus: "aprovada", variant: "success" },
-    { label: "Reprovar Pagamento", nextStatus: "reprovada", variant: "danger" },
+  processing: [
+    { label: "Aprovar Pagamento",      nextStatus: "approved",           variant: "success" },
+    { label: "Reprovar Pagamento",     nextStatus: "canceled",           variant: "danger"  },
   ],
-  aprovada: [
-    { label: "Enviar para Transporte", nextStatus: "transito", variant: "primary" },
+  approved: [
+    { label: "Enviar para Transporte", nextStatus: "shipped",            variant: "primary" },
   ],
-  transito: [
-    { label: "Confirmar Entrega", nextStatus: "entregue", variant: "dark" },
+  shipped: [
+    { label: "Confirmar Entrega",      nextStatus: "delivered",          variant: "dark"    },
   ],
-  emTroca: [
-    { label: "Autorizar Troca", nextStatus: "trocaAutorizada", variant: "warning" },
+  exchange: [
+    { label: "Autorizar Troca",        nextStatus: "exchangeAuthorized", variant: "warning" },
   ],
 };
 
