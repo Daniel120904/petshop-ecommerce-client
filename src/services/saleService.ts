@@ -23,10 +23,10 @@ export async function updateSaleStatus(
   saleId: number,
   status: SaleStatus
 ): Promise<void> {
-  await api<void>(`/sale/${saleId}/status`, {
-    method: "PUT",
+  await api<void>(`/sale`, {
+    method: "PATCH",
     auth: true,
-    body: JSON.stringify({ status }),
+    body: JSON.stringify({ status, saleId }),
   });
 }
 

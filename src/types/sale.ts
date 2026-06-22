@@ -1,7 +1,6 @@
 export type SaleStatus =
   | "processing"
   | "approved"
-  | "reproved"
   | "shipped"
   | "exchange"
   | "exchangeAuthorized"
@@ -83,7 +82,6 @@ export type StatusConfig = {
 export const STATUS_CONFIG: Record<SaleStatus, StatusConfig> = {
   processing:         { label: "Em Processamento", color: "#92400e", bg: "#fef3c7" },
   approved:           { label: "Aprovada",          color: "#0369a1", bg: "#e0f2fe" },
-  reproved:           { label: "Reprovada",         color: "#b91c1c", bg: "#fee2e2" },
   shipped:            { label: "Em Trânsito",       color: "#374151", bg: "#f1f5f9" },
   exchange:           { label: "Em Troca",          color: "#b91c1c", bg: "#fee2e2" },
   exchangeAuthorized: { label: "Troca Autorizada",  color: "#166534", bg: "#dcfce7" },
@@ -100,7 +98,7 @@ export type StatusAction = {
 export const STATUS_ACTIONS: Partial<Record<SaleStatus, StatusAction[]>> = {
   processing: [
     { label: "Aprovar Pagamento",      nextStatus: "approved",           variant: "success" },
-    { label: "Reprovar Pagamento",     nextStatus: "reproved",           variant: "danger"  },
+    { label: "Reprovar Pagamento",     nextStatus: "canceled",           variant: "danger"  },
   ],
   approved: [
     { label: "Enviar para Transporte", nextStatus: "shipped",            variant: "primary" },
