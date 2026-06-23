@@ -49,7 +49,7 @@ export type Sale = {
   addressId: number;
   items: SaleItem[];
   payment: SalePayment;
-  user?: { nome: string };
+  user?: { name: string };
 };
 
 export type SaleMeta = {

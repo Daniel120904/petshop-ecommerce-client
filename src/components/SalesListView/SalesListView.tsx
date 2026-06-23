@@ -13,7 +13,7 @@ export function SalesListView() {
   const { sales, loading, error, handleUpdateStatus } =
     useSales();
 
-  return (
+    return (
     <main className={styles.container}>
       {error && <div className={styles.errorBanner}>{error}</div>}
 
@@ -47,7 +47,7 @@ export function SalesListView() {
                 <tr key={sale.id} className={styles.row}>
                   <td className={styles.tdId}>#{sale.id}</td>
                   <td className={styles.tdClient}>
-                    {sale.user?.nome ?? `Usuário #${sale.userId}`}
+                    {sale.user?.name ?? `Usuário #${sale.userId}`}
                   </td>
                   <td className={styles.tdDate}>{formatDate(sale.createdAt)}</td>
                   <td className={styles.tdStatus}>

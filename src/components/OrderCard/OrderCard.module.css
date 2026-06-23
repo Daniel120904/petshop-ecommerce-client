@@ -32,7 +32,7 @@
 .rejected   { background: #fee2e2; color: #991b1b; }
 .transit    { background: #dbeafe; color: #1e40af; }
 .delivered  { background: #d1fae5; color: #065f46; }
-.cancelled  { background: #f1f5f9; color: #64748b; }
+.canceled  { background: #f1f5f9; color: #64748b; }
 
 /* ─── Items ─── */
 .itemList {

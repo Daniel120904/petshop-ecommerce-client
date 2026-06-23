@@ -114,6 +114,11 @@ export function useCheckout() {
 
     setCouponLoading(true);
     try {
+      if(appliedCoupons.length > 0) {
+        setCouponError("É permitido adicionar somente um cupom");
+        return;
+      } 
+
       const coupon = await checkCoupon(code);
       if (!coupon) {
         setCouponError("Cupom inválido ou expirado.");

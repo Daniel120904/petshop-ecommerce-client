@@ -11,13 +11,14 @@ const STATUS_CONFIG: Record<string, { label: string; className: string }> = {
   rejected:    { label: "Reprovado",         className: "rejected"    },
   transit:     { label: "Em Trânsito",       className: "transit"     },
   delivered:   { label: "Entregue",          className: "delivered"   },
-  cancelled:   { label: "Cancelado",         className: "cancelled"   },
+  canceled:   { label: "Cancelado",         className: "canceled"   },
 };
 
 const PAYMENT_LABEL: Record<string, string> = {
   pix:          "PIX",
   credit_card:  "Cartão de Crédito",
   debit_card:   "Cartão de Débito",
+  card:         "Cartão",
   boleto:       "Boleto",
 };
 

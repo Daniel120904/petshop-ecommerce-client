@@ -40,7 +40,7 @@ export function useProducts() {
       setSuccessId(productId);
       setTimeout(() => setSuccessId(null), 2000);
     } catch {
-      setError("Falha ao adicionar o produto ao carrinho.");
+      setError("Estoque insuficiente");
     } finally {
       setAddingId(null);
     }
