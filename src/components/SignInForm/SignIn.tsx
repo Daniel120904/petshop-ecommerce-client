@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from "react";
 import styles from "./SignIn.module.css";
-import { useCadastro, Genero } from "@/hooks/useSignIn";
+import { useRegister, Genero } from "@/hooks/useRegister";
 import { validateField } from "@/validators/sign";
 
 type FieldErrors = Partial<Record<string, string | null>>;
@@ -17,7 +17,11 @@ const schemaKey: Record<string, Parameters<typeof validateField>[0]> = {
   genero: "genderId",
 };
 
-export function SignForm() {
+type SignFormProps = {
+  onSuccess?: () => void;
+};
+
+export function SignForm({ onSuccess }: SignFormProps) {
   const {
     nome, setNome,
     cpf, handleCpfChange,
@@ -28,8 +32,9 @@ export function SignForm() {
     showPassword, toggleShowPassword,
     loading,
     error,
+    success,
     handleSubmit,
-  } = useCadastro();
+  } = useRegister({ onSuccess });
 
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [touched, setTouched] = useState<Touched>({});
@@ -41,6 +46,7 @@ export function SignForm() {
     const err = validateField(key, value);
     setFieldErrors((e) => ({ ...e, [field]: err }));
   }, []);
+
   const passwordRules = [
     { label: "Mínimo 6 caracteres", ok: password.length >= 6 },
     { label: "Letra maiúscula", ok: /[A-Z]/.test(password) },
@@ -61,6 +67,11 @@ export function SignForm() {
   return (
     <form className={styles.form} onSubmit={handleSubmit} noValidate>
       {error && <div className={styles.errorBanner}>{error}</div>}
+      {success && (
+        <div className={styles.successBanner}>
+          Conta criada com sucesso! Redirecionando para o login...
+        </div>
+      )}
 
       {/* Nome */}
       <div className={styles.field}>
@@ -74,6 +85,7 @@ export function SignForm() {
           onChange={(e) => setNome(e.target.value)}
           onBlur={() => handleBlur("nome", nome)}
           autoComplete="name"
+          disabled={loading || success}
         />
         {touched.nome && fieldErrors.nome && (
           <span className={styles.fieldError}>{fieldErrors.nome}</span>
@@ -93,6 +105,7 @@ export function SignForm() {
             onChange={(e) => handleCpfChange(e.target.value)}
             onBlur={() => handleBlur("cpf", cpf)}
             inputMode="numeric"
+            disabled={loading || success}
           />
           {touched.cpf && fieldErrors.cpf && (
             <span className={styles.fieldError}>{fieldErrors.cpf}</span>
@@ -108,6 +121,7 @@ export function SignForm() {
             value={dataNascimento}
             onChange={(e) => setDataNascimento(e.target.value)}
             onBlur={() => handleBlur("dataNascimento", dataNascimento)}
+            disabled={loading || success}
           />
           {touched.dataNascimento && fieldErrors.dataNascimento && (
             <span className={styles.fieldError}>{fieldErrors.dataNascimento}</span>
@@ -124,6 +138,7 @@ export function SignForm() {
           value={genero}
           onChange={(e) => setGenero(e.target.value as Genero)}
           onBlur={() => handleBlur("genero", genero)}
+          disabled={loading || success}
         >
           <option value="" disabled>Selecione</option>
           <option value="1">Masculino</option>
@@ -148,6 +163,7 @@ export function SignForm() {
           onChange={(e) => setEmail(e.target.value)}
           onBlur={() => handleBlur("email", email)}
           autoComplete="email"
+          disabled={loading || success}
         />
         {touched.email && fieldErrors.email && (
           <span className={styles.fieldError}>{fieldErrors.email}</span>
@@ -167,12 +183,14 @@ export function SignForm() {
             onChange={(e) => setPassword(e.target.value)}
             onBlur={() => handleBlur("password", password)}
             autoComplete="new-password"
+            disabled={loading || success}
           />
           <button
             type="button"
             className={styles.eyeBtn}
             onClick={toggleShowPassword}
             aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+            disabled={loading || success}
           >
             {showPassword ? (
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -189,7 +207,6 @@ export function SignForm() {
           </button>
         </div>
 
-        {/* Checklist visual */}
         {password.length > 0 && (
           <ul className={styles.passwordRules}>
             {passwordRules.map((rule) => (
@@ -202,8 +219,8 @@ export function SignForm() {
         )}
       </div>
 
-      <button type="submit" className={styles.submitBtn} disabled={loading}>
-        {loading ? "Criando conta..." : "Criar conta"}
+      <button type="submit" className={styles.submitBtn} disabled={loading || success}>
+        {loading ? "Criando conta..." : success ? "Conta criada!" : "Criar conta"}
       </button>
     </form>
   );

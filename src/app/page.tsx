@@ -11,24 +11,33 @@ export default function LoginPage() {
   const [active, setActive] = useState<Tab>("login");
   const loginRef = useRef<HTMLDivElement>(null);
   const cadastroRef = useRef<HTMLDivElement>(null);
-  const [sliderHeight, setSliderHeight] = useState<number | undefined>(undefined);
+  const [sliderHeight, setSliderHeight] = useState<number | undefined>(
+    undefined,
+  );
 
-  // Mede a altura do painel ativo e anima
+  // Mede a altura do painel ativo sempre que ele mudar de tamanho
+  // (troca de aba OU conteúdo interno crescendo/diminuindo, como a checklist de senha)
   useEffect(() => {
     const el = active === "login" ? loginRef.current : cadastroRef.current;
-    if (el) setSliderHeight(el.offsetHeight);
-  }, [active]);
+    if (!el) return;
 
-  // 👇 Adiciona isso — mede assim que os refs estão prontos
-  useEffect(() => {
-    const el = loginRef.current;
-    if (el) setSliderHeight(el.offsetHeight);
-  }, []); // roda só no mount
+    // mede imediatamente
+    setSliderHeight(el.offsetHeight);
+
+    // e continua observando mudanças de tamanho do painel ativo
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        setSliderHeight(entry.target.scrollHeight);
+      }
+    });
+    observer.observe(el);
+
+    return () => observer.disconnect();
+  }, [active]);
 
   return (
     <div className={styles.page}>
       <div className={styles.card}>
-
         <div className={styles.tabs}>
           <button
             className={`${styles.tab} ${active === "login" ? styles.tabActive : ""}`}
@@ -46,11 +55,13 @@ export default function LoginPage() {
           </button>
           <span
             className={styles.tabIndicator}
-            style={{ transform: active === "cadastro" ? "translateX(100%)" : "translateX(0)" }}
+            style={{
+              transform:
+                active === "cadastro" ? "translateX(100%)" : "translateX(0)",
+            }}
           />
         </div>
 
-        {/* Altura animada via CSS transition */}
         <div
           className={styles.slider}
           style={{
@@ -60,12 +71,17 @@ export default function LoginPage() {
         >
           <div
             className={styles.track}
-            style={{ transform: active === "cadastro" ? "translateX(-50%)" : "translateX(0)" }}
+            style={{
+              transform:
+                active === "cadastro" ? "translateX(-50%)" : "translateX(0)",
+            }}
           >
             <div className={styles.panel} ref={loginRef}>
               <div className={styles.panelHeader}>
                 <h1 className={styles.title}>Bem-vindo de volta</h1>
-                <p className={styles.subtitle}>Entre na sua conta para continuar</p>
+                <p className={styles.subtitle}>
+                  Entre na sua conta para continuar
+                </p>
               </div>
               <LoginForm />
             </div>
@@ -73,13 +89,14 @@ export default function LoginPage() {
             <div className={styles.panel} ref={cadastroRef}>
               <div className={styles.panelHeader}>
                 <h1 className={styles.title}>Criar conta</h1>
-                <p className={styles.subtitle}>Preencha os dados para se cadastrar</p>
+                <p className={styles.subtitle}>
+                  Preencha os dados para se cadastrar
+                </p>
               </div>
-              <SignForm />
+              <SignForm onSuccess={() => setActive("login")} />
             </div>
           </div>
         </div>
-
       </div>
     </div>
   );

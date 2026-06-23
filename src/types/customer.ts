@@ -117,3 +117,12 @@ export type CreateCustomerPayload = {
   senha: string;
   confirmarSenha: string;
 };
+
+export type RegisterPayload = {
+  name: string;
+  email: string;
+  password: string;
+  cpf: string;
+  birthday: string;
+  genderId?: string;
+};

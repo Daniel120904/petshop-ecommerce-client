@@ -7,6 +7,7 @@ import {
   CardFormData,
   CustomerResponse,
   FindCustomer,
+  RegisterPayload,
 } from "@/types/customer";
 
 // ─── Customer ─────────────────────────────────────────────────────────────────
@@ -166,4 +167,13 @@ export async function updatePreferredCard(cardId: number): Promise<void> {
     method: "PUT",
     auth: true,
   });
+}
+
+export async function registerCustomer(payload: RegisterPayload): Promise<{ id: number }> {
+  const res = await api<{ id: number }>("/register", {
+    method: "POST",
+    // sem auth: true, já que o usuário ainda não tem token nesse momento
+    body: JSON.stringify(payload),
+  });
+  return res;
 }
